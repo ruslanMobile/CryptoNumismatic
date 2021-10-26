@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "436097862933",
+    "firebase_url": "https://cryptonumismatic-d99ed-default-rtdb.firebaseio.com",
+    "project_id": "cryptonumismatic-d99ed",
+    "storage_bucket": "cryptonumismatic-d99ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436097862933:android:5d0bda048ce274afd72d1c",
+        "android_client_info": {
+          "package_name": "com.example.cryptonumismatic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436097862933-p4jmjtmk8af3727590tutgk8bl71lik9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cryptonumismatic",
+            "certificate_hash": "6d00b46ebcf92bd7522d711b4f3775ced5487d20"
+          }
+        },
+        {
+          "client_id": "436097862933-e278mvih7na56a9p3if5g154ok67dfnm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACQRETM_tByNkq9z6ZKPNr9qQqOnBy1wE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436097862933-e278mvih7na56a9p3if5g154ok67dfnm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

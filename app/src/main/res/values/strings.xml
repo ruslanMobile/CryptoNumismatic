@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">CryptoNumismatic</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logo">cryptonumismatic</string>
+    <string name="secondLogo">EASY &amp; FAST</string>
+    <string name="autorizeStart">Autorize your account for start traiding with most anonimus cryptowallet on market </string>
+    <string name="googleLogIn">Add your Google profile for create your account.</string>
+    <string name="inputTextHintEmail">Type Your E-Mail </string>
+    <string name="inputTextHintPassword">Type Your Password</string>
+    <string name="inputTextHintPasswordRegistration">Create Password with 8 chracters</string>
+    <string name="inputTextHintRepeatPassword">Repeat Password with 8 chracters</string>
 </resources>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkBlue"
+    tools:context=".Fragments.RegistrationFragment">
+
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+     <!--  <EditText
+           android:id="@+id/editTextEmailRegistration"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="32dp"
+           android:ems="10"
+           android:inputType="textPersonName"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent" />
+
+       <EditText
+           android:id="@+id/editTextPasswordRegistration"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="16dp"
+           android:ems="10"
+           android:inputType="textPersonName"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/editTextEmailRegistration" />
+
+       <Button
+           android:id="@+id/buttonRegistration"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="16dp"
+           android:text="Go Register"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/editTextPasswordRegistration" />
+           -->
+       <TextView
+           android:id="@+id/textLogoRegistration"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="90dp"
+           android:fontFamily="@font/quicksand_medium"
+           android:shadowColor="#F44336"
+           android:shadowDy="-2"
+           android:shadowRadius="3"
+           android:text="@string/logo"
+           android:textColor="@color/white"
+           android:textSize="30sp"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent" />
+
+       <TextView
+           android:id="@+id/textSecondLogoRegistration"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="-5dp"
+           android:layout_marginEnd="-40dp"
+           android:fontFamily="@font/roboto_italic"
+           android:text="@string/secondLogo"
+           android:textColor="@color/redText"
+           android:textSize="12sp"
+           app:layout_constraintEnd_toEndOf="@+id/textLogoRegistration"
+           app:layout_constraintTop_toBottomOf="@+id/textLogoRegistration" />
+
+       <com.google.android.material.textfield.TextInputLayout
+           android:id="@+id/editTextEmailRegistration"
+           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="76dp"
+           android:hint="E-mail"
+           android:textColorHint="@color/white"
+           app:boxCornerRadiusBottomEnd="7dp"
+           app:boxCornerRadiusBottomStart="7dp"
+           app:boxCornerRadiusTopEnd="7dp"
+           app:boxCornerRadiusTopStart="7dp"
+           app:boxStrokeColor="@color/mtrl_textinput_default_box_stroke_color"
+           app:expandedHintEnabled="false"
+           app:hintTextColor="@color/white"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/textSecondLogoRegistration"
+           app:layout_constraintWidth_default="percent"
+           app:layout_constraintWidth_percent="0.75">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/editTextEmailRegistrationInput"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="@string/inputTextHintEmail" />
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+       <com.google.android.material.textfield.TextInputLayout
+           android:id="@+id/editTextPasswordRegistration"
+           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="20dp"
+           android:hint="Password"
+           android:textColorHint="@color/white"
+           app:boxCornerRadiusBottomEnd="7dp"
+           app:boxCornerRadiusBottomStart="7dp"
+           app:boxCornerRadiusTopEnd="7dp"
+           app:boxCornerRadiusTopStart="7dp"
+           app:boxStrokeColor="@color/mtrl_textinput_default_box_stroke_color"
+           app:expandedHintEnabled="false"
+           app:hintTextColor="@color/white"
+           app:layout_constraintEnd_toEndOf="@+id/editTextEmailRegistration"
+           app:layout_constraintStart_toStartOf="@+id/editTextEmailRegistration"
+           app:layout_constraintTop_toBottomOf="@+id/editTextEmailRegistration"
+           app:layout_constraintWidth_default="percent"
+           app:layout_constraintWidth_percent="0.75">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/editTextPasswordRegistrationInput"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="@string/inputTextHintPasswordRegistration" />
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+       <com.google.android.material.textfield.TextInputLayout
+           android:id="@+id/editTextRepeatPasswordRegistration"
+           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="20dp"
+           android:hint="Repeat Password"
+           android:textColorHint="@color/white"
+           app:boxCornerRadiusBottomEnd="7dp"
+           app:boxCornerRadiusBottomStart="7dp"
+           app:boxCornerRadiusTopEnd="7dp"
+           app:boxCornerRadiusTopStart="7dp"
+           app:boxStrokeColor="@color/mtrl_textinput_default_box_stroke_color"
+           app:expandedHintEnabled="false"
+
+           app:hintTextColor="@color/white"
+           app:layout_constraintEnd_toEndOf="@+id/editTextPasswordRegistration"
+           app:layout_constraintStart_toStartOf="@+id/editTextPasswordRegistration"
+           app:layout_constraintTop_toBottomOf="@+id/editTextPasswordRegistration"
+           app:layout_constraintWidth_default="percent"
+           app:layout_constraintWidth_percent="0.75">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/editTextRepeatPasswordRegistrationInput"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="@string/inputTextHintRepeatPassword" />
+
+       </com.google.android.material.textfield.TextInputLayout>
+
+       <Button
+           android:id="@+id/buttonRegistration"
+           style="@style/Widget.MaterialComponents.Button.TextButton"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="30dp"
+           android:backgroundTint="@color/red"
+           android:clickable="true"
+           android:focusable="false"
+           android:focusableInTouchMode="false"
+           android:fontFamily="@font/roboto"
+           android:paddingTop="12dp"
+           android:paddingBottom="12dp"
+           android:text="Registration"
+           android:textColor="@color/darkBlue"
+           android:textIsSelectable="true"
+           android:textSize="16sp"
+           app:cornerRadius="10dp"
+           app:layout_constraintEnd_toEndOf="@+id/editTextPasswordRegistration"
+           app:layout_constraintStart_toStartOf="@+id/editTextPasswordRegistration"
+           app:layout_constraintTop_toBottomOf="@+id/editTextRepeatPasswordRegistration" />
+
+       <TextView
+           android:id="@+id/textGoogleLogInRegistration"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="4dp"
+           android:fontFamily="@font/roboto"
+           android:text="@string/googleLogIn"
+           android:textColor="@color/white"
+           android:textSize="16sp"
+
+           app:layout_constraintStart_toStartOf="@+id/buttonRegistration"
+           app:layout_constraintTop_toTopOf="@+id/buttonGoogleRegistration"
+           app:layout_constraintWidth_default="percent"
+           app:layout_constraintWidth_percent="0.35"
+           app:lineHeight="27sp" />
+
+       <Button
+           android:id="@+id/buttonGoogleRegistration"
+           style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="52dp"
+           android:fontFamily="sans-serif-light"
+           android:includeFontPadding="false"
+           android:letterSpacing="0"
+           android:paddingLeft="15dp"
+           android:paddingTop="15dp"
+           android:paddingRight="15dp"
+           android:paddingBottom="15dp"
+           android:text="+"
+           android:textColor="@color/strokeColor"
+           android:textIsSelectable="false"
+           android:textSize="50sp"
+           app:cornerRadius="10dp"
+           app:icon="@drawable/ic_logo_google"
+           app:iconPadding="15dp"
+           app:iconTint="@android:color/transparent"
+           app:iconTintMode="add"
+           app:layout_constraintEnd_toEndOf="@+id/buttonRegistration"
+           app:layout_constraintTop_toBottomOf="@+id/buttonRegistration"
+           app:strokeColor="@color/strokeColor"
+           app:strokeWidth="1dp" />
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
