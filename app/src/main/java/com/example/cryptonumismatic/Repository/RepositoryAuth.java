@@ -90,7 +90,7 @@ public class RepositoryAuth {
                             map.put("password", password);
                             documentReference.set(map);
                             mutableLiveDataFirebaseUser.postValue(firebaseAuth.getCurrentUser());
-                        }
+                        }else Toast.makeText(context,"Registration failed",Toast.LENGTH_LONG).show();
                     }
                 });
     }
