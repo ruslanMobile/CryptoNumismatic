@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+        //Перевірка,чи користувач вже входив.Якщо так - запуск додатку
         if(FirebaseAuth.getInstance().getCurrentUser()!=null){
             Intent intent = new Intent(this, ApplicationActivity.class);
             startActivity(intent);

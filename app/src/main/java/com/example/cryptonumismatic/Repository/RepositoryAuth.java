@@ -57,6 +57,7 @@ public class RepositoryAuth {
         return mutableLiveDataFirebaseUser;
     }
 
+    //Вхід в аккаунт firebase
     public void logIn(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -73,6 +74,7 @@ public class RepositoryAuth {
                 });
     }
 
+    //Реєстрація аккаунту в firebase
     public void signUp(String email, String password) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -93,6 +95,7 @@ public class RepositoryAuth {
                 });
     }
 
+    //Отримання клієнта нашого гугл аккаунта
     public GoogleSignInClient getClient(){
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -103,6 +106,7 @@ public class RepositoryAuth {
         return GoogleSignIn.getClient(context,gso);
     }
 
+    //Вхід за допомогою гугл і нашого ключа
     public void logInWithGoogle(String token) {
         AuthCredential credential = GoogleAuthProvider.getCredential(token,null);
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

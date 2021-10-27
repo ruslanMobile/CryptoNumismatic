@@ -42,6 +42,7 @@ public class StartAppFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viewModelStartApp = new ViewModelProvider(this).get(ViewModelStartApp.class);
 
+        //Перевірка,чи користувач ввійшов в систему.Запуск додатку
         viewModelStartApp.getMutableLiveDataFirebaseUser().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
@@ -53,6 +54,7 @@ public class StartAppFragment extends Fragment {
             }
         });
 
+        //Вхід за допомогою Гугл.Слухач лаунчера і при виборі аккаунту запуск функції входу.
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             Log.d("MyLog","LAUNCHER");
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
@@ -71,18 +73,21 @@ public class StartAppFragment extends Fragment {
         Button logIn = view.findViewById(R.id.buttonLogInStartApp);
         Button signUp = view.findViewById(R.id.buttonSignUpStartApp);
         Button googleSignIn = view.findViewById(R.id.buttonGoogleStartApp);
+        //Слухач для входу в додаток
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_startAppFragment_to_logInFragment);
             }
         });
+        //Слухач для реєстрації в додатоку
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_startAppFragment_to_registrationFragment);
             }
         });
+        //Слухач для входу через гугл
         googleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

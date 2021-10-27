@@ -31,11 +31,13 @@ public class ViewModelStartApp extends AndroidViewModel {
     public MutableLiveData<FirebaseUser> getMutableLiveDataFirebaseUser() {
         return mutableLiveDataFirebaseUser;
     }
-
+    
+    //Отримання клієнта гугл аккаунта
     public GoogleSignInClient getClient() {
         return repositoryAuth.getClient();
     }
 
+    //Вхід з гугл
     public void logInWithGoogle(String idToken) {
         repositoryAuth.logInWithGoogle(idToken);
     }

@@ -1,10 +1,6 @@
 package com.example.cryptonumismatic.ViewModel;
 
 import android.app.Application;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -26,18 +22,22 @@ public class ViewModelLogin extends AndroidViewModel {
         mutableLiveDataFirebaseUser = repositoryAuth.getMutableLiveDataFirebaseUser();
     }
 
+    //Вхід
     public void logIn(String email, String password) {
         repositoryAuth.logIn(email, password);
     }
 
+    //Реєстрація
     public void signUp(String email, String password) {
         repositoryAuth.signUp(email, password);
     }
 
+    //Отримання клієнта гугл аккаунта
     public GoogleSignInClient getClient() {
         return repositoryAuth.getClient();
     }
 
+    //Вхід з гугл
     public void logInWithGoogle(String idToken) {
         repositoryAuth.logInWithGoogle(idToken);
     }
@@ -46,6 +46,7 @@ public class ViewModelLogin extends AndroidViewModel {
         return mutableLiveDataFirebaseUser;
     }
 
+    //Валідація поля вводу Email
     public boolean validationEmail(String text) {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (text.isEmpty()) {
@@ -58,6 +59,8 @@ public class ViewModelLogin extends AndroidViewModel {
             }
         }
     }
+
+    //Валідація поля вводу Password
     public boolean validationPassword(String text){
         if(text.trim().length()<8) return false;
         return true;

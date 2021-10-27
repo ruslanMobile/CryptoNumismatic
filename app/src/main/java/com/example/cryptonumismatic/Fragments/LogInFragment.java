@@ -51,6 +51,7 @@ public class LogInFragment extends Fragment {
         viewModelLogin.getMutableLiveDataFirebaseUser().observe(getActivity(), new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
+                //Перевірка,чи користувач ввійшов в систему.Запуск додатку
                 if(firebaseUser!= null){
                     Log.d("MyLog","NOT NULL AND LOG IN");
                     Intent intent = new Intent(getActivity(), ApplicationActivity.class);
@@ -59,6 +60,7 @@ public class LogInFragment extends Fragment {
             }
         });
 
+        //Вхід за допомогою Гугл.Слухач лаунчера і при виборі аккаунту запуск функції входу.
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             Log.d("MyLog","LAUNCHER");
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
@@ -82,6 +84,7 @@ public class LogInFragment extends Fragment {
         Button buttonLogIn = view.findViewById(R.id.buttonLogIn);
         Button googleLogIn = view.findViewById(R.id.buttonGoogleLogIn);
 
+        //Слухач набору тексту E-mail
         editTextEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -101,7 +104,7 @@ public class LogInFragment extends Fragment {
                 }
             }
         });
-
+        //Слухач набору тексту Password
         editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -122,6 +125,7 @@ public class LogInFragment extends Fragment {
             }
         });
 
+        //Слухач входу
         buttonLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +136,7 @@ public class LogInFragment extends Fragment {
             }
         });
 
+        //Слухач входу через гугл аккаунт
         googleLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
