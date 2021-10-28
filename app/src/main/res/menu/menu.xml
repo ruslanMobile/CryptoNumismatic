@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/marketFragment"
+        android:icon="@drawable/ic_icon_nav_first"
+        android:title="Market" />
+    <item
+        android:id="@+id/findFragment"
+        android:icon="@drawable/ic_icon_nav_second"
+        android:title="Find" />
+    <item
+        android:id="@+id/portfolioFragment"
+        android:icon="@drawable/ic_icon_nav_third"
+        android:title="Portfolio" />
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_icon_nav_fourth"
+        android:title="Profile" />
+</menu>

@@ -17,5 +17,8 @@
 
     <color name="mtrl_textinput_default_box_stroke_color">#FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="navigationBackground">#05426F</color>
+    <color name="blue">#315F81</color>
+
 
 </resources>
