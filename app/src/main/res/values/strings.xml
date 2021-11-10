@@ -10,4 +10,8 @@
     <string name="inputTextHintPassword">Type Your Password</string>
     <string name="inputTextHintPasswordRegistration">Create Password with 8 chracters</string>
     <string name="inputTextHintRepeatPassword">Repeat Password with 8 chracters</string>
+    <string name="inputTextHintFind">Find crypto</string>
+    <string name="textTopCoins">Top Coins</string>
+    <string name="textGrowthCoins">Growth Leaders</string>
+    <string name="textFindCoins">Found Coins</string>
 </resources>

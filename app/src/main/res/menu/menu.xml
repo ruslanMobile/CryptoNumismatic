@@ -5,10 +5,6 @@
         android:icon="@drawable/ic_icon_nav_first"
         android:title="Market" />
     <item
-        android:id="@+id/findFragment"
-        android:icon="@drawable/ic_icon_nav_second"
-        android:title="Find" />
-    <item
         android:id="@+id/portfolioFragment"
         android:icon="@drawable/ic_icon_nav_third"
         android:title="Portfolio" />

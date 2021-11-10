@@ -20,5 +20,7 @@
     <color name="navigationBackground">#05426F</color>
     <color name="blue">#315F81</color>
 
-
+    <color name="price">#CDD7E8</color>
+    <color name="percentPlus">#00FF57</color>
+    <color name="percentMinus">#FF0000</color>
 </resources>

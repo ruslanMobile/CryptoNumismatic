@@ -11,11 +11,6 @@
         android:label="fragment_market"
         tools:layout="@layout/fragment_market" />
     <fragment
-        android:id="@+id/findFragment"
-        android:name="com.example.cryptonumismatic.FindFragment"
-        android:label="fragment_find"
-        tools:layout="@layout/fragment_find" />
-    <fragment
         android:id="@+id/portfolioFragment"
         android:name="com.example.cryptonumismatic.PortfolioFragment"
         android:label="fragment_portfolio"
