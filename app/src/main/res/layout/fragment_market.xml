@@ -42,6 +42,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -66,12 +67,21 @@
                 android:textSize="22sp"
                 android:visibility="gone" />
 
+            <ProgressBar
+                android:id="@+id/progressBarFindCoins"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:foregroundGravity="center_horizontal"
+                android:visibility="gone" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewFindCoins"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <TextView
                 android:id="@+id/textTopCoinsMarket"
@@ -84,30 +94,48 @@
                 android:textColor="#FFFFFF"
                 android:textSize="22sp" />
 
+            <ProgressBar
+                android:id="@+id/progressBarTopCoins"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:foregroundGravity="center_horizontal"
+                android:visibility="gone" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewTopCoins"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"></androidx.recyclerview.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/textGrowthLeaderMarket"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/textGrowthCoins"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto_medium"
+                android:text="@string/textGrowthCoins"
                 android:textColor="#FFFFFF"
                 android:textSize="22sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBarGrowthCoins"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:foregroundGravity="center_horizontal"
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewGrowthLeaders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </LinearLayout>
     </ScrollView>
 

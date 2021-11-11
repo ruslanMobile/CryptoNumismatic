@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cryptonumismatic.Repository.RepositoryRetrofit;
-import com.example.cryptonumismatic.models.ModelTopCoin;
+import com.example.cryptonumismatic.models.ModelCoin;
 
 import java.util.List;
 
@@ -19,16 +19,20 @@ public class ViewModelNetwork extends AndroidViewModel {
         repositoryRetrofit = RepositoryRetrofit.getInstance();
     }
 
-    public MutableLiveData<List<ModelTopCoin>> getMutableLiveDataTopTenCoins() {
+    //отримання топ монет
+    public MutableLiveData<List<ModelCoin>> getMutableLiveDataTopTenCoins() {
         return repositoryRetrofit.getMutableLiveDataTopTenCoins();
     }
-    public MutableLiveData<List<ModelTopCoin>> getMutableLiveDataAllCoins() {
+    //отримання всіх монет
+    public MutableLiveData<List<ModelCoin>> getMutableLiveDataAllCoins() {
         return repositoryRetrofit.getMutableLiveDataAllCoins();
     }
-    public MutableLiveData<List<ModelTopCoin>> getMutableLiveDataHundredCoins() {
+    //отримання лідерів росту
+    public MutableLiveData<List<ModelCoin>> getMutableLiveDataHundredCoins() {
         return repositoryRetrofit.getMutableLiveDataHundredCoins();
     }
 
+    //оновлення списків
     public void updatetop(){
         repositoryRetrofit.updatetop();
     }
@@ -38,4 +42,5 @@ public class ViewModelNetwork extends AndroidViewModel {
     public void updatehundred(){
         repositoryRetrofit.updatehundred();
     }
+    //
 }

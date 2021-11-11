@@ -15,19 +15,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.cryptonumismatic.Adapters.CoinsAdapter;
 import com.example.cryptonumismatic.ViewModel.ViewModelNetwork;
-import com.example.cryptonumismatic.models.ModelTopCoin;
+import com.example.cryptonumismatic.models.ModelCoin;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -35,40 +32,48 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 public class MarketFragment extends Fragment {
-    ViewModelNetwork viewModelNetwork;
-    Disposable disposableFirst,disposableSecond,disposableThird;
-    RecyclerView recyclerViewTopCoins,recyclerViewGrowthLeaders,recyclerViewFindCoins;
-    List<ModelTopCoin> listFind = new ArrayList<>();
-    CoinsAdapter adapterFind;
-    TextView textFind;
+    private ViewModelNetwork viewModelNetwork;
+    private Disposable disposableFirst,disposableSecond,disposableThird;
+    private RecyclerView recyclerViewTopCoins,recyclerViewGrowthLeaders,recyclerViewFindCoins;
+    private List<ModelCoin> listFind = new ArrayList<>();
+    private CoinsAdapter adapterFind,adapterTopCoins,adapterGrowthCoins;
+    private TextView textFind;
+    private ProgressBar progressBarTopCoins,progressBarGrowthCoins,progressBarFindCoins;
+    private TextInputEditText textInputEditText;
+    private ScrollView scrollView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("MyLog","FRAGMENT onCreateView============");
         viewModelNetwork = new ViewModelProvider(requireActivity()).get(ViewModelNetwork.class);
-        viewModelNetwork.getMutableLiveDataTopTenCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelTopCoin>>() {
+        viewModelNetwork.getMutableLiveDataTopTenCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
             @Override
-            public void onChanged(List<ModelTopCoin> modelTopCoins) {
-                Log.d("MyLog", "VIEW MODEL " + modelTopCoins.size());
-                upDateListTopCoins(modelTopCoins);
+            public void onChanged(List<ModelCoin> modelCoins) {
+                Log.d("MyLog", "VIEW MODEL " + modelCoins.size());
+                progressBarTopCoins.setVisibility(View.GONE);
+                //Оновлення списку топ монет
+                adapterTopCoins.findCoins(modelCoins);
             }
         });
-        viewModelNetwork.getMutableLiveDataHundredCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelTopCoin>>() {
+        viewModelNetwork.getMutableLiveDataHundredCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
             @Override
-            public void onChanged(List<ModelTopCoin> modelTopCoins) {
-                Log.d("MyLog", "VIEW MODEL HUNDRED" + modelTopCoins.size());
-                upDateListGrowthLeaders(modelTopCoins);
+            public void onChanged(List<ModelCoin> modelCoins) {
+                Log.d("MyLog", "VIEW MODEL HUNDRED" + modelCoins.size());
+                progressBarGrowthCoins.setVisibility(View.GONE);
+                //Оновлення списку Лідерів росту
+                adapterGrowthCoins.findCoins(modelCoins);
             }
         });
-        viewModelNetwork.getMutableLiveDataAllCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelTopCoin>>() {
+        viewModelNetwork.getMutableLiveDataAllCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
             @Override
-            public void onChanged(List<ModelTopCoin> modelTopCoins) {
-                Log.d("MyLog", "VIEW MODEL ALL" + modelTopCoins.size());
-                for(ModelTopCoin el: modelTopCoins){
+            public void onChanged(List<ModelCoin> modelCoins) {
+                Log.d("MyLog", "VIEW MODEL ALL" + modelCoins.size());
+                listFind = new ArrayList<>();
+                for(ModelCoin el: modelCoins){
                     listFind.add(el);
                 }
+                filterEditText(textInputEditText.getText().toString());
             }
         });
         return inflater.inflate(R.layout.fragment_market, container, false);
@@ -80,11 +85,24 @@ public class MarketFragment extends Fragment {
         recyclerViewGrowthLeaders = view.findViewById(R.id.recyclerViewGrowthLeaders);
         recyclerViewFindCoins = view.findViewById(R.id.recyclerViewFindCoins);
         textFind = view.findViewById(R.id.textFindCoinsMarket);
+        progressBarTopCoins = view.findViewById(R.id.progressBarTopCoins);
+        progressBarGrowthCoins = view.findViewById(R.id.progressBarGrowthCoins);
+        progressBarFindCoins = view.findViewById(R.id.progressBarFindCoins);
+        scrollView = view.findViewById(R.id.scrollView);
 
-        TextInputEditText textInputEditText = view.findViewById(R.id.textInputEditTextFind);
+        progressBarTopCoins.setVisibility(View.VISIBLE);
+        progressBarGrowthCoins.setVisibility(View.VISIBLE);
+        textInputEditText = view.findViewById(R.id.textInputEditTextFind);
+        //Адаптери для списків
+        adapterGrowthCoins = new CoinsAdapter(new ArrayList(),getActivity());
+        adapterTopCoins = new CoinsAdapter(new ArrayList(),getActivity());
         adapterFind = new CoinsAdapter(new ArrayList(),getActivity());
-        recyclerViewFindCoins.setAdapter(adapterFind);
 
+        recyclerViewFindCoins.setAdapter(adapterFind);
+        recyclerViewGrowthLeaders.setAdapter(adapterGrowthCoins);
+        recyclerViewTopCoins.setAdapter(adapterTopCoins);
+
+        //При наборі тексту відбувається пошук елементів зі списку
         textInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -92,20 +110,14 @@ public class MarketFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().trim().length()>0) {
-                    textFind.setVisibility(View.VISIBLE);
-                    filterEditText(s.toString().trim());
-                }
-                else {
-                    textFind.setVisibility(View.GONE);
-                    adapterFind.findCoins(new ArrayList<>());
-                }
+                scrollView.scrollTo(0,0);
+                filterEditText(s.toString().trim());
             }
         });
 
+        //Оновлення списків по інтервалах
         Log.d("MyLog","FRAGMENT onViewCreated============");
-        viewModelNetwork.updatetop();
-        disposableFirst  = Observable.interval(7500,
+        disposableFirst  = Observable.interval(100,7500,
                 TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(el->{
@@ -135,8 +147,11 @@ public class MarketFragment extends Fragment {
                 },e->{
                     Log.d("MyLog","ERROR");
                 });
+        //
+
     }
 
+    //Очищення disposable від інтервалів
     @Override
     public void onDestroyView() {
         Log.d("MyLog","FRAGMENT onDestroyView=========");
@@ -145,27 +160,29 @@ public class MarketFragment extends Fragment {
         disposableThird.dispose();
         super.onDestroyView();
     }
-    public void upDateListTopCoins(List list){
-        Log.d("MyLog","FRAGMENT UPDATE=========");
-        CoinsAdapter adapter = new CoinsAdapter(list,getActivity());
-        recyclerViewTopCoins.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-    public void upDateListGrowthLeaders(List list){
-        Log.d("MyLog","FRAGMENT UPDATE=========");
-        CoinsAdapter adapter = new CoinsAdapter(list,getActivity());
-        recyclerViewGrowthLeaders.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
 
-    public void filterEditText(String string){
-        List<ModelTopCoin> list = new ArrayList<>();
-        for(ModelTopCoin el: listFind){
-            if(el.getName().toLowerCase().contains(string.toLowerCase())){
-                list.add(el);
+    //Фільтер пошуку елементів
+    public void filterEditText(String string) {
+        if (listFind.size() == 0) {
+            progressBarFindCoins.setVisibility(View.VISIBLE);
+        } else {
+            progressBarFindCoins.setVisibility(View.GONE);
+            if (string.length() > 0) {
+                List<ModelCoin> list = new ArrayList<>();
+                for (ModelCoin el : listFind) {
+                    if (el.getName().toLowerCase().contains(string.toLowerCase())) {
+                        list.add(el);
+                    }
+                }
+                Log.d("MyLog", "LIST" + list.size());
+                adapterFind.findCoins(list);
             }
         }
-        Log.d("MyLog","LIST" + list.size());
-        adapterFind.findCoins(list);
+        if(string.length()>0) textFind.setVisibility(View.VISIBLE);
+        else {
+            textFind.setVisibility(View.GONE);
+            adapterFind.findCoins(new ArrayList<>());
+            progressBarFindCoins.setVisibility(View.GONE);
+        }
     }
 }

@@ -1,24 +1,21 @@
 package com.example.cryptonumismatic.utils;
 
-import com.example.cryptonumismatic.models.ModelOneDayChange;
-import com.example.cryptonumismatic.models.ModelTopCoin;
-import com.example.cryptonumismatic.response.TopCoinResponse;
+import com.example.cryptonumismatic.models.ModelCoin;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 
 public interface Api {
     //https://api.nomics.com/v1/currencies/ticker?page=1&convert=USD&key=ae3a5fe528b4d90893e3d36013b1a88a78e3ea2b&interval=1d&per-page=10&sort=rank
    // @GET("currencies/ticker?convert=USD&interval=1d&key=ae3a5fe528b4d90893e3d36013b1a88a78e3ea2b&sort=rank")
     @GET(Credentials.REQUEST_TOP_10_COINS)
-    Call<List<ModelTopCoin>> getTopTenCoins();
+    Call<List<ModelCoin>> getTopTenCoins();
 
     @GET(Credentials.REQUEST_ALL_COINS)
-    Call<List<ModelTopCoin>> getAllCoins();
+    Call<List<ModelCoin>> getAllCoins();
 
     @GET(Credentials.REQUEST_100_COINS)
-    Call<List<ModelTopCoin>> getHundredCoins();
+    Call<List<ModelCoin>> getHundredCoins();
 }

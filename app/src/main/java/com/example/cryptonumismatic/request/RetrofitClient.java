@@ -18,6 +18,7 @@ public class RetrofitClient {
         return instance;
     }
 
+    //створення об'єкту для роботи з Retrofit
     private RetrofitClient() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(Credentials.BASE_URL)

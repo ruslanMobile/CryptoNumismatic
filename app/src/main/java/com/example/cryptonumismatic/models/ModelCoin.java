@@ -3,7 +3,7 @@ package com.example.cryptonumismatic.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ModelTopCoin {
+public class ModelCoin {
     @SerializedName("id")
     @Expose
     private String id;
@@ -41,7 +41,7 @@ public class ModelTopCoin {
     @Expose
     private ModelOneDayChange modelOneDayChange;
 
-    public ModelTopCoin(String id, String name, String logoUrl, String price, String priceDate, String priceTimestamp, String marketCap, String marketCapDominance, String rank, String high, String highTimestamp, ModelOneDayChange modelOneDayChange) {
+    public ModelCoin(String id, String name, String logoUrl, String price, String priceDate, String priceTimestamp, String marketCap, String marketCapDominance, String rank, String high, String highTimestamp, ModelOneDayChange modelOneDayChange) {
         this.id = id;
         this.name = name;
         this.logoUrl = logoUrl;

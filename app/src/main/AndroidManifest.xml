@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CryptoNumismatic">
-        <activity android:name=".ApplicationActivity"></activity>
+        <activity android:name=".ApplicationActivity" android:windowSoftInputMode="adjustNothing"> ></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

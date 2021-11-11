@@ -1,7 +1,6 @@
 package com.example.cryptonumismatic.Adapters;
 
 import android.content.Context;
-import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import com.example.cryptonumismatic.R;
-import com.example.cryptonumismatic.models.ModelTopCoin;
+import com.example.cryptonumismatic.models.ModelCoin;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 
 import java.text.DecimalFormat;
@@ -24,8 +23,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CoinsAdapter extends RecyclerView.Adapter<CoinsAdapter.ViewHolder> {
-    List list;
-    Context context;
+    private List list;
+    private Context context;
     public CoinsAdapter(List list,Context context) {
         this.list = list;
         this.context = context;
@@ -40,10 +39,9 @@ public class CoinsAdapter extends RecyclerView.Adapter<CoinsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull CoinsAdapter.ViewHolder holder, int position) {
-        ModelTopCoin item = (ModelTopCoin) list.get(position);
+        ModelCoin item = (ModelCoin) list.get(position);
+        //Заокруглення до трьох нулів
         DecimalFormat f = new DecimalFormat("0.000");
-
-
         try {
             holder.textId.setText(item.getId());
             holder.textName.setText(item.getName());
@@ -59,6 +57,7 @@ public class CoinsAdapter extends RecyclerView.Adapter<CoinsAdapter.ViewHolder> 
         }catch (NullPointerException ex) {}
 
 
+        //Перевірка, в кому розширенні приходить картинка. Відповідно до того загружати її
         Pattern pattern = Pattern.compile(".svg");
         Matcher matcher = pattern.matcher(item.getLogoUrl());
         if(matcher.find()) {
@@ -80,7 +79,8 @@ public class CoinsAdapter extends RecyclerView.Adapter<CoinsAdapter.ViewHolder> 
         return list.size();
     }
 
-    public void findCoins(List<ModelTopCoin> list) {
+    //Запуск при пошуку елементів. Відображає знайденні елементи
+    public void findCoins(List<ModelCoin> list) {
         this.list = list;
         notifyDataSetChanged();
     }
