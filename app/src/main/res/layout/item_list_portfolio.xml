@@ -9,7 +9,7 @@
     android:paddingBottom="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageLogoCoinItem"
+        android:id="@+id/imageLogoCoinItemPortfolio"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textIdCoinItem"
+        android:id="@+id/textIdCoinItemPortfolio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -28,11 +28,11 @@
         android:text="BTC"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/textNameCoinItem"
-        app:layout_constraintStart_toEndOf="@+id/imageLogoCoinItem" />
+        app:layout_constraintBottom_toTopOf="@+id/textNameCoinItemPortfolio"
+        app:layout_constraintStart_toEndOf="@+id/imageLogoCoinItemPortfolio" />
 
     <TextView
-        android:id="@+id/textNameCoinItem"
+        android:id="@+id/textNameCoinItemPortfolio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -44,53 +44,78 @@
         android:textColor="@color/strokeColor"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageLogoCoinItem"
+        app:layout_constraintStart_toEndOf="@+id/imageLogoCoinItemPortfolio"
         app:layout_constraintWidth_max="70dp" />
 
     <TextView
-        android:id="@+id/textPriceCoinItem"
+        android:id="@+id/textPriceCoinItemPortfolio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:fontFamily="@font/roboto_medium"
         android:text="$62.000"
         android:textColor="@color/price"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageAddToPortfolio"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/textPercentCoinItemPortfolio"
+        app:layout_constraintStart_toStartOf="@+id/imagePriceCoinItemPortfolio"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <ImageView
-        android:id="@+id/imagePriceCoinItem"
+        android:id="@+id/imagePriceCoinItemPortfolio"
         android:layout_width="12dp"
         android:layout_height="10dp"
         android:layout_marginStart="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageLogoCoinItem"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/textPercentCoinItemPortfolio"
+        app:layout_constraintStart_toEndOf="@+id/imageLogoCoinItemPortfolio"
+        app:layout_constraintTop_toTopOf="@+id/textPercentCoinItemPortfolio"
         app:srcCompat="@drawable/ic_icon_find" />
 
     <TextView
-        android:id="@+id/textPercentCoinItem"
+        android:id="@+id/textPercentCoinItemPortfolio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:fontFamily="@font/roboto_medium"
         android:text="1.33%"
         android:textColor="@color/percentPlus"
-        android:textSize="16sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imagePriceCoinItem"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/imagePriceCoinItemPortfolio"
+        app:layout_constraintTop_toBottomOf="@+id/textPriceCoinItemPortfolio" />
+
+    <TextView
+        android:id="@+id/textUSDCoinItemPortfolio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="5954USD"
+        android:textColor="@color/price"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/textCountCoinItemPortfolio"
+        app:layout_constraintEnd_toStartOf="@+id/imageMorePortfolio"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/textCountCoinItemPortfolio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="0.000005"
+        android:textColor="@color/strokeColor"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textUSDCoinItemPortfolio"
+        app:layout_constraintTop_toBottomOf="@+id/textUSDCoinItemPortfolio" />
 
     <ImageView
-        android:id="@+id/imageAddToPortfolio"
+        android:id="@+id/imageMorePortfolio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_icon_plus" />
-
+        app:srcCompat="@drawable/ic_icon_three_dot" />
 </androidx.constraintlayout.widget.ConstraintLayout>

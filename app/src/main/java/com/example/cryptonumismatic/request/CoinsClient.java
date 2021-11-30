@@ -18,6 +18,7 @@ public class CoinsClient {
     private MutableLiveData<List<ModelCoin>> mutableLiveDataTopTenCoins;
     private MutableLiveData<List<ModelCoin>> mutableLiveDataAllCoins;
     private MutableLiveData<List<ModelCoin>> mutableLiveDataHundredCoins;
+    private MutableLiveData<List<ModelCoin>> mutableLiveDataIdsCoins;
     private static CoinsClient instance;
 
     public static CoinsClient getInstance() {
@@ -31,6 +32,7 @@ public class CoinsClient {
         mutableLiveDataTopTenCoins = new MutableLiveData<>();
         mutableLiveDataAllCoins = new MutableLiveData<>();
         mutableLiveDataHundredCoins = new MutableLiveData<>();
+        mutableLiveDataIdsCoins = new MutableLiveData<>();
     }
 
     //отримати списку топ монет
@@ -118,4 +120,29 @@ public class CoinsClient {
             }
         });
     }
+
+    //отримання списку по id
+    public MutableLiveData<List<ModelCoin>> getMutableLiveDataIdsCoins() {
+        return mutableLiveDataIdsCoins;
+    }
+
+    //оновлення списку по id
+    public void updateMutableLiveDataIdsCoins(String ids) {
+        Call<List<ModelCoin>> call = RetrofitClient.getInstance().getApi().getIdsCoins(ids);
+        call.enqueue(new Callback<List<ModelCoin>>() {
+            @Override
+            public void onResponse(Call<List<ModelCoin>> call, Response<List<ModelCoin>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("MyLog", "CLIENT IDS: " + String.valueOf(response.body().size()));
+                    mutableLiveDataIdsCoins.postValue(response.body());
+                } else Log.e("MyLog", "ERROR REQUEST IDS");
+            }
+
+            @Override
+            public void onFailure(Call<List<ModelCoin>> call, Throwable t) {
+                Log.d("MyLog", "ERROR REQUEST IDS" + " " + t.getMessage());
+            }
+        });
+    }
+
 }

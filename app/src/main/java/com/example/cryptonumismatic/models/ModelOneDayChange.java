@@ -3,7 +3,9 @@ package com.example.cryptonumismatic.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ModelOneDayChange {
+import java.io.Serializable;
+
+public class ModelOneDayChange implements Serializable {
     @SerializedName("volume")
     @Expose
     private String volume;
@@ -104,4 +106,6 @@ public class ModelOneDayChange {
                 ", marketCapChangePct='" + marketCapChangePct + '\'' +
                 '}';
     }
+
+
 }

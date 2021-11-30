@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_bottom_sheet"
+    app:layout_constrainedHeight="false">
+
+    <ImageView
+        android:id="@+id/imageCloseBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_icon_exit_bottom_sheet" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageLogoBottomSheet"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_icon_bitcoin"
+        app:layout_constraintBottom_toBottomOf="@+id/imageCloseBottomSheet"
+        app:layout_constraintStart_toEndOf="@+id/imageCloseBottomSheet"
+        app:layout_constraintTop_toTopOf="@+id/imageCloseBottomSheet" />
+
+    <TextView
+
+        android:id="@+id/textIdBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/roboto_medium"
+        android:includeFontPadding="false"
+        android:text="BTC"
+        android:textColor="@color/price"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/circleImageLogoBottomSheet"
+        app:layout_constraintStart_toEndOf="@+id/circleImageLogoBottomSheet"
+        app:layout_constraintTop_toTopOf="@+id/circleImageLogoBottomSheet" />
+
+    <TextView
+        android:id="@+id/textNameBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="(Bitcoin)"
+        android:textColor="@color/price"
+        app:layout_constraintBottom_toBottomOf="@+id/textIdBottomSheet"
+        app:layout_constraintStart_toEndOf="@+id/textIdBottomSheet"
+        app:layout_constraintTop_toTopOf="@+id/textIdBottomSheet" />
+
+    <TextView
+        android:id="@+id/textDateBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/purchaseDate"
+        android:textColor="@color/price"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textQuantityBottomSheet" />
+
+    <TextView
+        android:id="@+id/textQuantityBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/quantity"
+        android:textColor="@color/price"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textPriceBottomSheet" />
+
+    <TextView
+        android:id="@+id/textPriceBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="34dp"
+        android:text="@string/purchasePrice"
+        android:textColor="@color/price"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageCloseBottomSheet" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editOutputPriceBottomSheet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="-5dp"
+        android:textColorHint="@color/white"
+        app:boxBackgroundColor="@color/navigationBackground"
+        app:boxCornerRadiusBottomEnd="7dp"
+        app:boxCornerRadiusBottomStart="7dp"
+        app:boxCornerRadiusTopEnd="7dp"
+        app:boxCornerRadiusTopStart="7dp"
+        app:boxStrokeColor="@color/mtrl_textinput_default_box_stroke_color"
+        app:expandedHintEnabled="false"
+        app:hintEnabled="false"
+        app:hintTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/textPriceBottomSheet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textPriceBottomSheet">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editInputPriceBottomSheet"
+            android:inputType="numberDecimal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enterPrice"
+            android:maxLines="1"
+            android:paddingStart="3dp"
+            android:textColor="@color/price"
+            android:textColorHint="#80CDD7E8" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editOutputQuantityBottomSheet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="-5dp"
+        android:textColorHint="@color/white"
+        app:boxBackgroundColor="@color/navigationBackground"
+        app:boxCornerRadiusBottomEnd="7dp"
+        app:boxCornerRadiusBottomStart="7dp"
+        app:boxCornerRadiusTopEnd="7dp"
+        app:boxCornerRadiusTopStart="7dp"
+        app:boxStrokeColor="@color/mtrl_textinput_default_box_stroke_color"
+        app:expandedHintEnabled="false"
+        app:hintEnabled="false"
+        app:hintTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/textQuantityBottomSheet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textQuantityBottomSheet">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editInputQuantityBottomSheet"
+            android:inputType="numberDecimal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enterQuantity"
+            android:maxLines="1"
+            android:paddingStart="3dp"
+            android:textColor="@color/price"
+            android:textColorHint="#80CDD7E8" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editOutputDateBottomSheet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="-5dp"
+
+        app:boxBackgroundColor="@color/navigationBackground"
+        app:boxCornerRadiusBottomEnd="7dp"
+        app:boxCornerRadiusBottomStart="7dp"
+        app:boxCornerRadiusTopEnd="7dp"
+        app:boxCornerRadiusTopStart="7dp"
+        app:boxStrokeColor="@color/mtrl_textinput_default_box_stroke_color"
+        app:expandedHintEnabled="false"
+        app:hintEnabled="false"
+        app:hintTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/textDateBottomSheet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textDateBottomSheet">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editInputDateBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enterDate"
+            android:maxLines="1"
+            android:paddingStart="3dp"
+            android:textColor="@color/price"
+            android:textColorHint="#80CDD7E8" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonAddCoinBottomSheet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/darkBlue"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/addTransaction"
+        android:textColor="@color/price"
+        android:textIsSelectable="true"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDateBottomSheet" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

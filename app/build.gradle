@@ -30,6 +30,12 @@ android {
 }
 
 dependencies {
+    //Room
+    def room_version = "2.3.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    // optional - RxJava2 support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
     //GlideToVectorYou
     implementation 'com.github.corouteam:GlideToVectorYou:v2.0.0'
     //Glide

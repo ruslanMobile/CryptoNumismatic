@@ -3,7 +3,9 @@ package com.example.cryptonumismatic.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ModelCoin {
+import java.io.Serializable;
+
+public class ModelCoin implements Serializable {
     @SerializedName("id")
     @Expose
     private String id;
@@ -169,4 +171,5 @@ public class ModelCoin {
     public void set1d(ModelOneDayChange modelOneDayChange) {
         this.modelOneDayChange = modelOneDayChange;
     }
+
 }

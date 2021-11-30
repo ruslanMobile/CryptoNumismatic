@@ -30,6 +30,9 @@ public class RepositoryRetrofit {
     public MutableLiveData<List<ModelCoin>> getMutableLiveDataHundredCoins() {
         return coinsClient.getMutableLiveDataHundredCoins();
     }
+    public MutableLiveData<List<ModelCoin>> getMutableLiveDataIdsCoins() {
+        return coinsClient.getMutableLiveDataIdsCoins();
+    }
     //оновлення списку топ монет
     public void updatetop() {
         coinsClient.updateMutableLiveDataTopTenCoins();
@@ -43,5 +46,9 @@ public class RepositoryRetrofit {
     //оновлення списку лідерів росту
     public void updatehundred() {
         coinsClient.updateMutableLiveDataHundredCoins();
+    }
+    //оновлення списку по id
+    public void updateids(String ids) {
+        coinsClient.updateMutableLiveDataIdsCoins(ids);
     }
 }

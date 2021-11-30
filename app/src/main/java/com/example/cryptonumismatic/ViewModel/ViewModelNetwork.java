@@ -31,6 +31,10 @@ public class ViewModelNetwork extends AndroidViewModel {
     public MutableLiveData<List<ModelCoin>> getMutableLiveDataHundredCoins() {
         return repositoryRetrofit.getMutableLiveDataHundredCoins();
     }
+    //отримання списку по id
+    public MutableLiveData<List<ModelCoin>> getMutableLiveDataIdsCoins() {
+        return repositoryRetrofit.getMutableLiveDataIdsCoins();
+    }
 
     //оновлення списків
     public void updatetop(){
@@ -41,6 +45,9 @@ public class ViewModelNetwork extends AndroidViewModel {
     }
     public void updatehundred(){
         repositoryRetrofit.updatehundred();
+    }
+    public void updateids(String ids){
+        repositoryRetrofit.updateids(ids);
     }
     //
 }

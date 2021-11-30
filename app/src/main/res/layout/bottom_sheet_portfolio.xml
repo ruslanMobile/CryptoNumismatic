@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_bottom_sheet"
+    app:layout_constrainedHeight="false">
+
+    <ImageView
+        android:id="@+id/imageClosePortfolioBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_icon_exit_bottom_sheet" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageLogoPortfolioBottomSheet"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_icon_bitcoin"
+        app:layout_constraintBottom_toBottomOf="@+id/imageClosePortfolioBottomSheet"
+        app:layout_constraintStart_toEndOf="@+id/imageClosePortfolioBottomSheet"
+        app:layout_constraintTop_toTopOf="@+id/imageClosePortfolioBottomSheet" />
+
+    <TextView
+
+        android:id="@+id/textIdPortfolioBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/roboto_medium"
+        android:includeFontPadding="false"
+        android:text="BTC"
+        android:textColor="@color/price"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/circleImageLogoPortfolioBottomSheet"
+        app:layout_constraintStart_toEndOf="@+id/circleImageLogoPortfolioBottomSheet"
+        app:layout_constraintTop_toTopOf="@+id/circleImageLogoPortfolioBottomSheet" />
+
+    <TextView
+        android:id="@+id/textNamePortfolioBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="(Bitcoin)"
+        android:textColor="@color/price"
+        app:layout_constraintBottom_toBottomOf="@+id/textIdPortfolioBottomSheet"
+        app:layout_constraintStart_toEndOf="@+id/textIdPortfolioBottomSheet"
+        app:layout_constraintTop_toTopOf="@+id/textIdPortfolioBottomSheet" />
+
+    <TextView
+        android:id="@+id/textDatePortfolioBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="21.09.2021"
+        android:textColor="@color/price"
+        app:layout_constraintBottom_toBottomOf="@+id/textNamePortfolioBottomSheet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textNamePortfolioBottomSheet" />
+
+    <LinearLayout
+        android:id="@+id/linearProfitPortfolioBottomSheet"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_portfolio_bottom_sheet"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/circleImageLogoPortfolioBottomSheet">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageProfitPortfolioBottomSheet"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_icon_bitcoin" />
+
+        <TextView
+            android:id="@+id/textProfitPortfolioBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto"
+            android:text="Profit/Loss"
+            android:textColor="#9A9A9A"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textPercentPortfolioBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="18%"
+            android:textColor="@color/price"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/textUSDChangePortfolioBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="USD15"
+            android:textColor="@color/percentPlus"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearPricePortfolioBottomSheet"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/background_portfolio_bottom_sheet"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/circleImageLogoPortfolioBottomSheet">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImagePricePortfolioBottomSheet"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_icon_dollar" />
+
+        <TextView
+            android:id="@+id/textPricePortfolioBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto"
+            android:text="Price/Count"
+            android:textColor="#9A9A9A"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textUSDPricePortfolioBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="USD1,5"
+            android:textColor="@color/price"
+            android:textSize="22dp" />
+
+        <TextView
+            android:id="@+id/textCountPortfolioBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="61ADA"
+            android:textColor="@color/price"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#33002540"
+        android:text="Delete"
+        android:textColor="@color/price"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearProfitPortfolioBottomSheet"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.7" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

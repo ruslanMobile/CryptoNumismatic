@@ -19,7 +19,9 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.cryptonumismatic.Adapters.CoinsAdapter;
+import com.example.cryptonumismatic.Adapters.CoinsAdapterFindCoins;
+import com.example.cryptonumismatic.Adapters.CoinsAdapterGrowthCoins;
+import com.example.cryptonumismatic.Adapters.CoinsAdapterTopCoins;
 import com.example.cryptonumismatic.ViewModel.ViewModelNetwork;
 import com.example.cryptonumismatic.models.ModelCoin;
 import com.google.android.material.textfield.TextInputEditText;
@@ -29,28 +31,42 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-public class MarketFragment extends Fragment {
+public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.ClickAddElementListener, CoinsAdapterGrowthCoins.ClickAddElementListener
+        , CoinsAdapterFindCoins.ClickAddElementListener {
     private ViewModelNetwork viewModelNetwork;
-    private Disposable disposableFirst,disposableSecond,disposableThird;
-    private RecyclerView recyclerViewTopCoins,recyclerViewGrowthLeaders,recyclerViewFindCoins;
+    private Disposable disposableFirst, disposableSecond, disposableThird;
+    private RecyclerView recyclerViewTopCoins, recyclerViewGrowthLeaders, recyclerViewFindCoins;
     private List<ModelCoin> listFind = new ArrayList<>();
-    private CoinsAdapter adapterFind,adapterTopCoins,adapterGrowthCoins;
+    private List<ModelCoin> listTopCoins = new ArrayList<>();
+    private List<ModelCoin> listGrowthCoins = new ArrayList<>();
+    private List<ModelCoin> listFindCoins = new ArrayList<>();
+    private CoinsAdapterTopCoins adapterTopCoins;
+    private CoinsAdapterGrowthCoins adapterGrowthCoins;
+    private CoinsAdapterFindCoins adapterFind;
     private TextView textFind;
-    private ProgressBar progressBarTopCoins,progressBarGrowthCoins,progressBarFindCoins;
+    private ProgressBar progressBarTopCoins, progressBarGrowthCoins, progressBarFindCoins;
     private TextInputEditText textInputEditText;
     private ScrollView scrollView;
+    private CustomBottomSheet customBottomSheet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("MyLog","FRAGMENT onCreateView============");
+        Log.d("MyLog", "FRAGMENT onCreateView============");
         viewModelNetwork = new ViewModelProvider(requireActivity()).get(ViewModelNetwork.class);
         viewModelNetwork.getMutableLiveDataTopTenCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
             @Override
             public void onChanged(List<ModelCoin> modelCoins) {
                 Log.d("MyLog", "VIEW MODEL " + modelCoins.size());
+                for (ModelCoin el : modelCoins) {
+                    listTopCoins.add(el);
+                }
                 progressBarTopCoins.setVisibility(View.GONE);
                 //Оновлення списку топ монет
                 adapterTopCoins.findCoins(modelCoins);
@@ -60,6 +76,9 @@ public class MarketFragment extends Fragment {
             @Override
             public void onChanged(List<ModelCoin> modelCoins) {
                 Log.d("MyLog", "VIEW MODEL HUNDRED" + modelCoins.size());
+                for (ModelCoin el : modelCoins) {
+                    listGrowthCoins.add(el);
+                }
                 progressBarGrowthCoins.setVisibility(View.GONE);
                 //Оновлення списку Лідерів росту
                 adapterGrowthCoins.findCoins(modelCoins);
@@ -70,10 +89,11 @@ public class MarketFragment extends Fragment {
             public void onChanged(List<ModelCoin> modelCoins) {
                 Log.d("MyLog", "VIEW MODEL ALL" + modelCoins.size());
                 listFind = new ArrayList<>();
-                for(ModelCoin el: modelCoins){
+                for (ModelCoin el : modelCoins) {
                     listFind.add(el);
                 }
-                filterEditText(textInputEditText.getText().toString());
+                textInputEditText.setText(textInputEditText.getText());
+                textInputEditText.setSelection(textInputEditText.getText().length());
             }
         });
         return inflater.inflate(R.layout.fragment_market, container, false);
@@ -94,95 +114,132 @@ public class MarketFragment extends Fragment {
         progressBarGrowthCoins.setVisibility(View.VISIBLE);
         textInputEditText = view.findViewById(R.id.textInputEditTextFind);
         //Адаптери для списків
-        adapterGrowthCoins = new CoinsAdapter(new ArrayList(),getActivity());
-        adapterTopCoins = new CoinsAdapter(new ArrayList(),getActivity());
-        adapterFind = new CoinsAdapter(new ArrayList(),getActivity());
+        adapterTopCoins = new CoinsAdapterTopCoins(new ArrayList(), getActivity(), this);
+        adapterGrowthCoins = new CoinsAdapterGrowthCoins(new ArrayList(), getActivity(), this);
+        adapterFind = new CoinsAdapterFindCoins(new ArrayList(), getActivity(), this);
 
         recyclerViewFindCoins.setAdapter(adapterFind);
         recyclerViewGrowthLeaders.setAdapter(adapterGrowthCoins);
         recyclerViewTopCoins.setAdapter(adapterTopCoins);
 
-        //При наборі тексту відбувається пошук елементів зі списку
-        textInputEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
-            @Override
-            public void afterTextChanged(Editable s) {
-                scrollView.scrollTo(0,0);
-                filterEditText(s.toString().trim());
-            }
-        });
+        customBottomSheet = new CustomBottomSheet();
 
         //Оновлення списків по інтервалах
-        Log.d("MyLog","FRAGMENT onViewCreated============");
-        disposableFirst  = Observable.interval(100,7500,
+        Log.d("MyLog", "FRAGMENT onViewCreated============");
+        disposableFirst = Observable.interval(100, 7500,
                 TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(el->{
-                    Log.d("MyLog","GIVE SOME DATA");
+                .subscribe(el -> {
+                    Log.d("MyLog", "GIVE SOME DATA");
                     viewModelNetwork.updatetop();
-                },e->{
-                    Log.d("MyLog","ERROR");
+                }, e -> {
+                    Log.d("MyLog", "ERROR");
                 });
 
 
-        disposableSecond  = Observable.interval(3500,13000,
+        disposableSecond = Observable.interval(3500, 13000,
                 TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(el->{
-                    Log.d("MyLog","GIVE SOME DATA HUNDRED");
+                .subscribe(el -> {
+                    Log.d("MyLog", "GIVE SOME DATA HUNDRED");
                     viewModelNetwork.updatehundred();
-                },e->{
-                    Log.d("MyLog","ERROR");
+                }, e -> {
+                    Log.d("MyLog", "ERROR");
                 });
 
 
-        disposableThird = Observable.interval(5500,25000,TimeUnit.MILLISECONDS)
+        disposableThird = Observable.interval(5500, 25000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(el->{
-                    Log.d("MyLog","GIVE SOME DATA ALL");
+                .subscribe(el -> {
+                    Log.d("MyLog", "GIVE SOME DATA ALL");
                     viewModelNetwork.updateall();
-                },e->{
-                    Log.d("MyLog","ERROR");
+                }, e -> {
+                    Log.d("MyLog", "ERROR");
                 });
         //
-
+        search();
     }
 
     //Очищення disposable від інтервалів
     @Override
     public void onDestroyView() {
-        Log.d("MyLog","FRAGMENT onDestroyView=========");
+        Log.d("MyLog", "FRAGMENT onDestroyView=========");
         disposableFirst.dispose();
         disposableSecond.dispose();
         disposableThird.dispose();
         super.onDestroyView();
     }
 
-    //Фільтер пошуку елементів
-    public void filterEditText(String string) {
-        if (listFind.size() == 0) {
-            progressBarFindCoins.setVisibility(View.VISIBLE);
-        } else {
-            progressBarFindCoins.setVisibility(View.GONE);
-            if (string.length() > 0) {
-                List<ModelCoin> list = new ArrayList<>();
-                for (ModelCoin el : listFind) {
-                    if (el.getName().toLowerCase().contains(string.toLowerCase())) {
-                        list.add(el);
-                    }
+    //Пошук елементів.Слухач зміни тексту і пошук.
+    public void search() {
+        Disposable disposable = (Disposable) Observable.create(emitter -> {
+            textInputEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+                @Override
+                public void afterTextChanged(Editable s) {
+                    emitter.onNext(s.toString().trim());
                 }
-                Log.d("MyLog", "LIST" + list.size());
-                adapterFind.findCoins(list);
-            }
-        }
-        if(string.length()>0) textFind.setVisibility(View.VISIBLE);
-        else {
-            textFind.setVisibility(View.GONE);
-            adapterFind.findCoins(new ArrayList<>());
-            progressBarFindCoins.setVisibility(View.GONE);
-        }
+            });
+        })
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe((string) -> {
+                    String text = string.toString().trim();
+                    Log.e("MyLog", "SEARCH: " + string);
+                    if (listFind.size() == 0) {
+                        progressBarFindCoins.setVisibility(View.VISIBLE);
+                    } else {
+                        progressBarFindCoins.setVisibility(View.GONE);
+                        listFindCoins = new ArrayList<>();
+                        if (text.length() > 0) {
+                            for (ModelCoin el : listFind) {
+                                if (el.getName().toLowerCase().contains(text.toLowerCase())) {
+                                    listFindCoins.add(el);
+                                }
+                            }
+                            Log.d("MyLog", "LIST" + listFindCoins.size());
+                            adapterFind.findCoins(listFindCoins);
+                        }
+                    }
+                    if (text.length() > 0) textFind.setVisibility(View.VISIBLE);
+                    else {
+                        textFind.setVisibility(View.GONE);
+                        adapterFind.findCoins(new ArrayList<>());
+                        progressBarFindCoins.setVisibility(View.GONE);
+                    }
+                }, (r) -> {
+                    Log.d("MyLog","ERROR RX");
+                });
+    }
+
+    @Override
+    public void onClickAddElementTopCoins(int position) {
+        Log.d("MyLog", "========CLICK TopCoins========" + listTopCoins.get(position).toString());
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("coin", listTopCoins.get(position));
+        customBottomSheet.setArguments(bundle);
+        customBottomSheet.show(getActivity().getSupportFragmentManager(), "TopCoins");
+    }
+
+    @Override
+    public void onClickAddElementGrowthCoins(int position) {
+        Log.d("MyLog", "========CLICK GrowthCoins========" + listGrowthCoins.get(position).toString());
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("coin", listGrowthCoins.get(position));
+        customBottomSheet.setArguments(bundle);
+        customBottomSheet.show(getActivity().getSupportFragmentManager(), "GrowthCoins");
+    }
+
+    @Override
+    public void onClickAddElementFindCoins(int position) {
+        Log.d("MyLog", "========CLICK FindCoins========" + listFindCoins.get(position).toString());
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("coin", listFindCoins.get(position));
+        customBottomSheet.setArguments(bundle);
+        customBottomSheet.show(getActivity().getSupportFragmentManager(), "FindCoins");
     }
 }
