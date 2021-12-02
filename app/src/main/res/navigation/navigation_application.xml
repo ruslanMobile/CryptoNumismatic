@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/marketFragment"
-        android:name="com.example.cryptonumismatic.MarketFragment"
+        android:name="com.example.cryptonumismatic.Fragments.MarketFragment"
         android:label="fragment_market"
         tools:layout="@layout/fragment_market" />
     <fragment
         android:id="@+id/portfolioFragment"
-        android:name="com.example.cryptonumismatic.PortfolioFragment"
+        android:name="com.example.cryptonumismatic.Fragments.PortfolioFragment"
         android:label="fragment_portfolio"
         tools:layout="@layout/fragment_portfolio" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.cryptonumismatic.ProfileFragment"
+        android:name="com.example.cryptonumismatic.Fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

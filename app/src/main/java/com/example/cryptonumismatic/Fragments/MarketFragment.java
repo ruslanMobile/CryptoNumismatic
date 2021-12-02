@@ -1,4 +1,4 @@
-package com.example.cryptonumismatic;
+package com.example.cryptonumismatic.Fragments;
 
 import android.os.Bundle;
 
@@ -22,6 +22,8 @@ import android.widget.TextView;
 import com.example.cryptonumismatic.Adapters.CoinsAdapterFindCoins;
 import com.example.cryptonumismatic.Adapters.CoinsAdapterGrowthCoins;
 import com.example.cryptonumismatic.Adapters.CoinsAdapterTopCoins;
+import com.example.cryptonumismatic.BottomSheets.CustomBottomSheet;
+import com.example.cryptonumismatic.R;
 import com.example.cryptonumismatic.ViewModel.ViewModelNetwork;
 import com.example.cryptonumismatic.models.ModelCoin;
 import com.google.android.material.textfield.TextInputEditText;
@@ -31,9 +33,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;

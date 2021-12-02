@@ -1,4 +1,4 @@
-package com.example.cryptonumismatic;
+package com.example.cryptonumismatic.Fragments;
 
 import android.os.Bundle;
 
@@ -17,48 +17,80 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.cryptonumismatic.Adapters.CoinsAdapterPortfolio;
+import com.example.cryptonumismatic.BottomSheets.PortfolioBottomSheet;
+import com.example.cryptonumismatic.R;
 import com.example.cryptonumismatic.ViewModel.ViewModelBottomSheet;
 import com.example.cryptonumismatic.ViewModel.ViewModelNetwork;
 import com.example.cryptonumismatic.models.ModelCoin;
+import com.example.cryptonumismatic.models.ModelCoinFirebase;
 import com.example.cryptonumismatic.models.ModelCoinPortfolio;
-import com.example.cryptonumismatic.room.CoinDao;
-import com.example.cryptonumismatic.room.CoinRoom;
+
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiConsumer;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
+import io.reactivex.plugins.RxJavaPlugins;
 
 public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio.ClickMoreInfoListener {
     private ViewModelBottomSheet viewModelBottomSheet;
     private ViewModelNetwork viewModelNetwork;
-    private List<CoinRoom> listMyCoins;
-    private List<ModelCoin> listRetrofit;
+    private List<ModelCoinFirebase> listMyCoins;
     private List<ModelCoinPortfolio> listPortfolio;
     private RecyclerView recyclerView;
     private Disposable disposable;
     private String ids = "";
-    private TextView textAllMoney, textGrowth24;
+    private TextView textAllMoney, textGrowth24,textEmpty;
     private ProgressBar progressBarPortfolio;
     private CoinsAdapterPortfolio coinsAdapterPortfolio;
     private PortfolioBottomSheet portfolioBottomSheet;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        RxJavaPlugins.setErrorHandler(th->{Log.e("MyLog","ERROR HANDLER");});
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModelBottomSheet = new ViewModelProvider(requireActivity()).get(ViewModelBottomSheet.class);
+        //Наблюдач за списком всіх своїх монет в Firebase
+        viewModelBottomSheet.getMutableLiveDataModelFirebase().observe(getViewLifecycleOwner(), new Observer<List<ModelCoinFirebase>>() {
+            @Override
+            public void onChanged(List<ModelCoinFirebase> modelCoinFirebases) {
+                if (disposable != null)
+                    disposable.dispose();
+
+                listMyCoins = modelCoinFirebases;
+                for (ModelCoinFirebase el : listMyCoins) {
+                    Log.d("MyLog", "ROOM " + el.toString());
+                    ids += el.getIdName() + ",";
+                }
+                if (ids.trim().length() > 0) {
+                    disposable = Observable.interval(1000, 7000,
+                            TimeUnit.MILLISECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(el -> {
+                                Log.d("MyLog", "GIVE SOME DATA PORTFOLIO");
+                                viewModelNetwork.updateids(ids);
+                            }, e -> {
+                                Log.d("MyLog", "ERROR");
+                            });
+                    textEmpty.setVisibility(View.GONE);
+                } else {
+                    Log.e("MyLog", "EMPTY IDS");
+                    progressBarPortfolio.setVisibility(View.GONE);
+                    textEmpty.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         viewModelNetwork = new ViewModelProvider(requireActivity()).get(ViewModelNetwork.class);
+        //Наблюдачч за зміною списку з Retrofit
         viewModelNetwork.getMutableLiveDataIdsCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
             @Override
             public void onChanged(List<ModelCoin> modelCoins) {
@@ -66,6 +98,7 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
                 for (ModelCoin el : modelCoins) {
                     Log.d("MyLog", el.toString());
                 }
+                //Отримання списку з Firebase, і після отримання зписку з Retrofit конвертувати в список з кастомною Model
                 Disposable disposable = Observable.fromIterable(listMyCoins)
                         .map(o -> {
                             for (ModelCoin el : modelCoins) {
@@ -83,13 +116,16 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
                             }
                             coinsAdapterPortfolio.updateList(objects);
                             countAllMoneyAndGrowth(objects);
-                        }, (throwable) -> {});
+                        }, (throwable) -> {
+                        });
+
                 progressBarPortfolio.setVisibility(View.GONE);
             }
         });
         return inflater.inflate(R.layout.fragment_portfolio, container, false);
     }
 
+    //Підрахунок загальної кількості грошей і прибутку за 24 год. Зміна TextView в верхній частині екрану
     public void countAllMoneyAndGrowth(List<Serializable> objects) {
         double allMoney = 0.0;
         double usdBefore = 0.0;
@@ -100,12 +136,12 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
         }
 
         for (ModelCoinPortfolio el : listPortfolio) {
-            allMoney += Double.valueOf(el.getCoinRoom().getCount()) * Double.valueOf(el.getModelCoin().getPrice());
+            allMoney += Double.valueOf(el.getModelCoinFirebase().getCount()) * Double.valueOf(el.getModelCoin().getPrice());
             try {
-                usdBefore += Double.valueOf(el.getCoinRoom().getCount()) *
+                usdBefore += Double.valueOf(el.getModelCoinFirebase().getCount()) *
                         (Double.valueOf(el.getModelCoin().getPrice()) - Double.valueOf(el.getModelCoin().getModelOneDayChange().getPriceChange()));
             } catch (NullPointerException ex) {
-                usdBefore += Double.valueOf(el.getCoinRoom().getCount()) * Double.valueOf(el.getModelCoin().getPrice());
+                usdBefore += Double.valueOf(el.getModelCoinFirebase().getCount()) * Double.valueOf(el.getModelCoin().getPrice());
             }
         }
         textAllMoney.setText(String.valueOf(new DecimalFormat("0.0").format(allMoney)) + " USD");
@@ -117,37 +153,21 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        // viewModelBottomSheet.deleteAllElements();
         listPortfolio = new ArrayList<>();
         portfolioBottomSheet = new PortfolioBottomSheet();
         progressBarPortfolio = view.findViewById(R.id.progressBarPortfolio);
         progressBarPortfolio.setVisibility(View.VISIBLE);
         textAllMoney = view.findViewById(R.id.textAllMoney);
         textGrowth24 = view.findViewById(R.id.textGrowth24Portfolio);
+        textEmpty = view.findViewById(R.id.textEmptyPortfolio);
         recyclerView = view.findViewById(R.id.recyclerPortfolio);
 
         coinsAdapterPortfolio = new CoinsAdapterPortfolio(new ArrayList(), getActivity(), this);
         recyclerView.setAdapter(coinsAdapterPortfolio);
 
-        listMyCoins = viewModelBottomSheet.getAllElements();
-        for (CoinRoom el : listMyCoins) {
-            Log.d("MyLog", "ROOM " + el.toString());
-        }
+        viewModelBottomSheet.getAllElementsFromFirebase();
 
-        for (CoinRoom el : listMyCoins) {
-            ids += el.getIdName() + ",";
-        }
-        if (ids.trim().length() > 0) {
-            disposable = Observable.interval(1000, 7000,
-                    TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(el -> {
-                        Log.d("MyLog", "GIVE SOME DATA PORTFOLIO");
-                        viewModelNetwork.updateids(ids);
-                    }, e -> {
-                        Log.d("MyLog", "ERROR");
-                    });
-        } else Log.e("MyLog", "EMPTY IDS");
+
     }
 
     //Очищення disposable від інтервалів

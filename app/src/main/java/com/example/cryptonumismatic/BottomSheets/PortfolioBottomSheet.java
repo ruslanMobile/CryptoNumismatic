@@ -1,4 +1,4 @@
-package com.example.cryptonumismatic;
+package com.example.cryptonumismatic.BottomSheets;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.example.cryptonumismatic.R;
+import com.example.cryptonumismatic.ViewModel.ViewModelBottomSheet;
 import com.example.cryptonumismatic.models.ModelCoin;
 import com.example.cryptonumismatic.models.ModelCoinPortfolio;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
@@ -27,10 +30,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PortfolioBottomSheet extends BottomSheetDialogFragment {
     private Bundle bundle;
     private ModelCoinPortfolio modelCoinPortfolio;
-    private ImageView imageClose;
-    private CircleImageView circleImageLogo,circleImageProfit;
+    private ImageView imageClose,circleImageProfit;
+    private CircleImageView circleImageLogo;
     private TextView textDate,textId,textName,textPercent,textUSDChange,textPrice,textCount;
     private Button buttonDelete;
+    private ViewModelBottomSheet viewModelBottomSheet;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,7 @@ public class PortfolioBottomSheet extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        viewModelBottomSheet = new ViewModelProvider(requireActivity()).get(ViewModelBottomSheet.class);
         View view = inflater.inflate(R.layout.bottom_sheet_portfolio,container,false);
         bundle = getArguments();
         modelCoinPortfolio = (ModelCoinPortfolio) bundle.getSerializable("coin");
@@ -55,19 +60,31 @@ public class PortfolioBottomSheet extends BottomSheetDialogFragment {
         imageClose = view.findViewById(R.id.imageClosePortfolioBottomSheet);
         buttonDelete = view.findViewById(R.id.buttonDelete);
 
+        buttonDelete.setOnClickListener((a)->{
+            viewModelBottomSheet.deleteElementFromFirebase(modelCoinPortfolio.getModelCoinFirebase().getHashId());
+            viewModelBottomSheet.getAllElementsFromFirebase();
+            dismiss();
+        });
+        //Встановлення всіх властивостей BottomSheet
         imageClose.setOnClickListener((a)->dismiss());
         textId.setText(modelCoinPortfolio.getModelCoin().getId());
         textName.setText("(" + modelCoinPortfolio.getModelCoin().getName() + ")");
-        textDate.setText(modelCoinPortfolio.getCoinRoom().getDate());
-        textPercent.setText(String.valueOf(new DecimalFormat("0.0").format(100*(Double.valueOf(modelCoinPortfolio.getModelCoin().getPrice())-Double.valueOf(modelCoinPortfolio.getCoinRoom().getPrice()))/Double.valueOf(modelCoinPortfolio.getCoinRoom().getPrice())))+"%");
-        textPrice.setText("USD" + new DecimalFormat("0.0").format(Double.valueOf(modelCoinPortfolio.getCoinRoom().getPrice())));
-        String usdChange = new DecimalFormat("0.0").format((Double.valueOf(modelCoinPortfolio.getModelCoin().getPrice()) * Double.valueOf(modelCoinPortfolio.getCoinRoom().getCount())) -
-                ((Double.valueOf(modelCoinPortfolio.getCoinRoom().getPrice()) * Double.valueOf(modelCoinPortfolio.getCoinRoom().getCount()))));
+        textDate.setText(modelCoinPortfolio.getModelCoinFirebase().getDate());
+        textPercent.setText(String.valueOf(new DecimalFormat("0.0").format(100*(Double.valueOf(modelCoinPortfolio.getModelCoin().getPrice())-Double.valueOf(modelCoinPortfolio.getModelCoinFirebase().getPrice()))/Double.valueOf(modelCoinPortfolio.getModelCoinFirebase().getPrice())))+"%");
+        textPrice.setText("USD" + new DecimalFormat("0.0").format(Double.valueOf(modelCoinPortfolio.getModelCoinFirebase().getPrice())));
+        String usdChange = new DecimalFormat("0.0").format((Double.valueOf(modelCoinPortfolio.getModelCoin().getPrice()) * Double.valueOf(modelCoinPortfolio.getModelCoinFirebase().getCount())) -
+                ((Double.valueOf(modelCoinPortfolio.getModelCoinFirebase().getPrice()) * Double.valueOf(modelCoinPortfolio.getModelCoinFirebase().getCount()))));
         textUSDChange.setText("USD" + usdChange);
-        textCount.setText(new DecimalFormat("0.0").format(Double.valueOf(modelCoinPortfolio.getCoinRoom().getCount())));
+        textCount.setText(new DecimalFormat("0.0").format(Double.valueOf(modelCoinPortfolio.getModelCoinFirebase().getCount())));
 
-/*        if(Double.valueOf(usdChange) < 0) textUSDChange.setTextColor(getResources().getColor(R.color.percentMinus));
-        else textUSDChange.setTextColor(getResources().getColor(R.color.percentPlus));*/
+        if(Double.parseDouble(usdChange.replaceAll(",",".")) < 0) {
+            textUSDChange.setTextColor(getResources().getColor(R.color.percentMinus));
+            circleImageProfit.setImageResource(R.drawable.ic_icon_price_down);
+        }
+        else {
+            textUSDChange.setTextColor(getResources().getColor(R.color.percentPlus));
+            circleImageProfit.setImageResource(R.drawable.ic_icon_price_up);
+        }
 
         uploadPhoto();
 

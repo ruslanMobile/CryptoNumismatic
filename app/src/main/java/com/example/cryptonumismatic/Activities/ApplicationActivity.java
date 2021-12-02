@@ -1,4 +1,4 @@
-package com.example.cryptonumismatic;
+package com.example.cryptonumismatic.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.fragment.NavHostFragment;
@@ -7,6 +7,7 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.cryptonumismatic.R;
 import com.example.cryptonumismatic.Repository.RepositoryAuth;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;

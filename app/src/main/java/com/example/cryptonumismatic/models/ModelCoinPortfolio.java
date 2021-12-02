@@ -1,32 +1,31 @@
 package com.example.cryptonumismatic.models;
 
-import com.example.cryptonumismatic.room.CoinRoom;
 
 import java.io.Serializable;
 
 public class ModelCoinPortfolio implements Serializable{
-    private CoinRoom coinRoom;
+    private ModelCoinFirebase modelCoinFirebase;
     private ModelCoin modelCoin;
 
-    public ModelCoinPortfolio(CoinRoom coinRoom, ModelCoin modelCoin) {
-        this.coinRoom = coinRoom;
+    public ModelCoinPortfolio(ModelCoinFirebase coinRoom, ModelCoin modelCoin) {
+        this.modelCoinFirebase = coinRoom;
         this.modelCoin = modelCoin;
     }
 
     @Override
     public String toString() {
         return "ModelCoinPortfolio{" +
-                "coinRoom=" + coinRoom +
+                "coinRoom=" + modelCoinFirebase +
                 ", modelCoin=" + modelCoin +
                 '}';
     }
 
-    public CoinRoom getCoinRoom() {
-        return coinRoom;
+    public ModelCoinFirebase getModelCoinFirebase() {
+        return modelCoinFirebase;
     }
 
-    public void setCoinRoom(CoinRoom coinRoom) {
-        this.coinRoom = coinRoom;
+    public void setModelCoinFirebase(ModelCoinFirebase modelCoinFirebase) {
+        this.modelCoinFirebase = modelCoinFirebase;
     }
 
     public ModelCoin getModelCoin() {
@@ -36,5 +35,4 @@ public class ModelCoinPortfolio implements Serializable{
     public void setModelCoin(ModelCoin modelCoin) {
         this.modelCoin = modelCoin;
     }
-
 }

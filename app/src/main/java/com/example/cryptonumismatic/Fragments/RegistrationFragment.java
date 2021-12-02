@@ -20,10 +20,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.cryptonumismatic.ApplicationActivity;
+import com.example.cryptonumismatic.Activities.ApplicationActivity;
 import com.example.cryptonumismatic.R;
 import com.example.cryptonumismatic.ViewModel.ViewModelLogin;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -32,8 +31,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
-
-import io.reactivex.disposables.Disposable;
 
 public class RegistrationFragment extends Fragment {
     private ViewModelLogin viewModelLogin;

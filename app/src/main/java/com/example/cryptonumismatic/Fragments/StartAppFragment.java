@@ -1,6 +1,5 @@
 package com.example.cryptonumismatic.Fragments;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.cryptonumismatic.ApplicationActivity;
+import com.example.cryptonumismatic.Activities.ApplicationActivity;
 import com.example.cryptonumismatic.R;
 import com.example.cryptonumismatic.ViewModel.ViewModelStartApp;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

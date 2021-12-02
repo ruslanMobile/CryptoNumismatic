@@ -2,7 +2,6 @@ package com.example.cryptonumismatic.Adapters;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.cryptonumismatic.R;
-import com.example.cryptonumismatic.models.ModelCoin;
 import com.example.cryptonumismatic.models.ModelCoinPortfolio;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 
@@ -53,14 +51,14 @@ public class CoinsAdapterPortfolio extends RecyclerView.Adapter<CoinsAdapterPort
         DecimalFormat f = new DecimalFormat("0.000");
 
         try {
-            holder.textId.setText(modelCoinPortfolio.getCoinRoom().idName);
-            holder.textCount.setText(modelCoinPortfolio.getCoinRoom().count);
+            holder.textId.setText(modelCoinPortfolio.getModelCoinFirebase().getIdName());
+            holder.textCount.setText(modelCoinPortfolio.getModelCoinFirebase().getCount());
             holder.textName.setText(modelCoinPortfolio.getModelCoin().getName());
             holder.textPercent.setText(f.format(Math.abs(Double.valueOf(modelCoinPortfolio.getModelCoin().getModelOneDayChange().getPriceChangePct()) * 100)) + "%");
             holder.textPrice.setText(f.format(Double.valueOf(modelCoinPortfolio.getModelCoin().getPrice())));
 
             //кількість монети в доларах
-            double usd = Double.valueOf(modelCoinPortfolio.getCoinRoom().getCount()) * Double.valueOf(modelCoinPortfolio.getModelCoin().getPrice());
+            double usd = Double.valueOf(modelCoinPortfolio.getModelCoinFirebase().getCount()) * Double.valueOf(modelCoinPortfolio.getModelCoin().getPrice());
             if(usd<1000)
                 holder.textUSD.setText(String.valueOf(new DecimalFormat("0.00").format(usd))+" USD");
             else if(usd>1000 && usd<10000)
@@ -116,7 +114,7 @@ public class CoinsAdapterPortfolio extends RecyclerView.Adapter<CoinsAdapterPort
             this.clickMoreInfoListener = clickMoreInfoListener;
             imageViewMore.setOnClickListener(this);
         }
-
+        //Клік на кнопку - додаткова інформація
         @Override
         public void onClick(View v) {
             clickMoreInfoListener.onClickMoreInfoPortfolio(getAdapterPosition());

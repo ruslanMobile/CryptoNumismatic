@@ -1,31 +1,41 @@
 package com.example.cryptonumismatic.ViewModel;
 
 import android.app.Application;
-import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
-import com.example.cryptonumismatic.models.ModelCoin;
-import com.example.cryptonumismatic.room.CoinDao;
-import com.example.cryptonumismatic.room.CoinRoom;
-import com.example.cryptonumismatic.room.Repository;
+import com.example.cryptonumismatic.Repository.RepositoryAuth;
+
+import com.example.cryptonumismatic.models.ModelCoinFirebase;
+
 
 import java.util.List;
 
 public class ViewModelBottomSheet extends AndroidViewModel {
-    private Repository repository;
+    private RepositoryAuth repositoryAuth;
+    private MutableLiveData mutableLiveDataModelFirebase;
     public ViewModelBottomSheet(@NonNull Application application) {
         super(application);
-        this.repository = new Repository(application);
+        this.repositoryAuth = new RepositoryAuth(application);
+        this.mutableLiveDataModelFirebase = repositoryAuth.getMutableLiveDataModelFirebase();
+    }
+    //Додавання нової монети
+    public void addElementToFirebase(String id, String price, String count, String date) {
+        repositoryAuth.addElementToFirebase(id,price,count,date);
+    }
+    //Отримання всіх монет
+    public void getAllElementsFromFirebase(){
+         repositoryAuth.getAllElementsFromFirebase();
     }
 
-    public void addElement(CoinRoom coinRoom){
-        repository.addElement(coinRoom);
+    //Наблюдатель за списком всіх елементів
+    public MutableLiveData<List<ModelCoinFirebase>> getMutableLiveDataModelFirebase(){
+        return mutableLiveDataModelFirebase;
     }
-
-    public List<CoinRoom> getAllElements(){ return repository.getAllElements();}
-
-    public void deleteAllElements(){ repository.deleteAllElements();}
+    //Видалення монети
+    public void deleteElementFromFirebase(String name){
+        repositoryAuth.deleteElementFromFirebase(name);
+    }
 }
