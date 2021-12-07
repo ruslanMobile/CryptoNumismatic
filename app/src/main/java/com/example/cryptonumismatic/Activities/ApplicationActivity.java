@@ -27,7 +27,5 @@ public class ApplicationActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.getNavController());
 
-        /*FirebaseAuth.getInstance().signOut();
-        new RepositoryAuth(getApplication()).getClient().signOut();*/
     }
 }

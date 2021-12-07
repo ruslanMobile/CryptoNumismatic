@@ -25,4 +25,21 @@
     <string name="assetType">Asset Type</string>
     <string name="price">Price</string>
     <string name="assets">Assets</string>
+    <string name="aboutApplication">About Application</string>
+    <string name="signOut">Sign Out</string>
+    <string name="aboutAppText">
+        This application was created for those people who own cryptocurrency
+        and want to be able to view their portfolio easily and simply.
+        <br/><br/>\n\n
+        In the application you can view the prices for cryptocurrency,
+        as well as price changes over the past 24 hours. The application has about ten thousand cryptocurrencies.
+        <br/><br/>\n\n
+        The application has the ability to add cryptocurrency to your portfolio.
+        You can view all the information about your purchase.
+        <br/><br/>\n\n
+        <i>Contacts:</i>
+        <br/>\n
+        <i>+380688296828</i>
+        <br/>\n
+        <i>ruslanosadtsia@gmail.com</i></string>
 </resources>

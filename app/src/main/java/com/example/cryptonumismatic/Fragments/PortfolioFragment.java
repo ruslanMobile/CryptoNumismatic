@@ -40,10 +40,10 @@ import io.reactivex.plugins.RxJavaPlugins;
 public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio.ClickMoreInfoListener {
     private ViewModelBottomSheet viewModelBottomSheet;
     private ViewModelNetwork viewModelNetwork;
-    private List<ModelCoinFirebase> listMyCoins;
+    private List<ModelCoinFirebase> listMyCoins = new ArrayList<>();
     private List<ModelCoinPortfolio> listPortfolio;
     private RecyclerView recyclerView;
-    private Disposable disposable;
+    private Disposable disposable,disposableRetrofit;
     private String ids = "";
     private TextView textAllMoney, textGrowth24,textEmpty;
     private ProgressBar progressBarPortfolio;
@@ -98,8 +98,8 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
                 for (ModelCoin el : modelCoins) {
                     Log.d("MyLog", el.toString());
                 }
-                //Отримання списку з Firebase, і після отримання зписку з Retrofit конвертувати в список з кастомною Model
-                Disposable disposable = Observable.fromIterable(listMyCoins)
+                 //Отримання списку з Firebase, і після отримання зписку з Retrofit конвертувати в список з кастомною Model
+                 disposableRetrofit = Observable.fromIterable(listMyCoins)
                         .map(o -> {
                             for (ModelCoin el : modelCoins) {
                                 if (el.getId().equals(o.getIdName())) {

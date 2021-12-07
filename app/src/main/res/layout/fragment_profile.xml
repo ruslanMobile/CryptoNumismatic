@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.ProfileFragment">
+    tools:context=".Fragments.ProfileFragment"
+    android:background="@color/darkBlue">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="profile" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/imageLogoCryptoProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_image_crypto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/horizontalViewProfile"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginTop="24dp"
+        android:background="@color/greyText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageLogoCryptoProfile" />
+
+    <Button
+        android:id="@+id/buttonAboutAppProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/transparent"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/aboutApplication"
+        android:textColor="@color/greyText"
+        android:textIsSelectable="true"
+        android:textSize="18sp"
+        app:icon="@drawable/ic_icon_about_app"
+        app:iconTint="@color/greyText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalViewProfile"
+        android:clickable="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
+
+    <Button
+        android:id="@+id/buttonSignOutProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/signOut"
+        android:textColor="@color/greyText"
+        android:textIsSelectable="true"
+        android:textSize="18sp"
+        app:icon="@drawable/ic_icon_sign_out"
+        app:iconTint="@color/greyText"
+        app:layout_constraintStart_toStartOf="@+id/buttonAboutAppProfile"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAboutAppProfile"
+        android:clickable="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
