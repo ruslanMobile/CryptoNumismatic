@@ -51,7 +51,6 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if(firebaseUser!= null){
-                    Log.d("MyLog","NOT NULL AND SiNG UP");
                     Intent intent = new Intent(getActivity(), ApplicationActivity.class);
                     startActivity(intent);
                 }
@@ -60,14 +59,11 @@ public class RegistrationFragment extends Fragment {
 
         //Вхід за допомогою Гугл.Слухач лаунчера і при виборі аккаунту запуск функції входу.
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            Log.d("MyLog","LAUNCHER");
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
             try{
                 GoogleSignInAccount acc = task.getResult();
                 if(acc!=null) viewModelLogin.logInWithGoogle(acc.getIdToken());
-            }catch (Exception e){
-                Log.d("MyLog","API EXCEPTION");
-            }
+            }catch (Exception e){}
         });
     }
 

@@ -77,9 +77,7 @@ public class RepositoryAuth {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("MyLog", "COMPLETE LOGIN");
                         if (task.isSuccessful()) {
-                            Log.d("MyLog", "SECCESS LOGIN " + task.getResult().getUser().getUid());
                             mutableLiveDataFirebaseUser.postValue(firebaseAuth.getCurrentUser());
                         } else {
                             Toast.makeText(context, "User not found", Toast.LENGTH_LONG).show();
@@ -94,10 +92,8 @@ public class RepositoryAuth {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("MyLog", "COMPLETE REGISTER");
                         if (task.isSuccessful()) {
                             Toast.makeText(context, "Registration complete", Toast.LENGTH_LONG).show();
-                            Log.d("MyLog", "SECCESS REGISTER " + task.getResult().getUser().getUid());
                             DocumentReference documentReference = firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getUid());
                             Map<String, Object> map = new HashMap<>();
                             map.put("email", email);
@@ -129,7 +125,6 @@ public class RepositoryAuth {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Success Log In", Toast.LENGTH_LONG).show();
-                    Log.d("MyLog", "SECCESS REG WITH GOOGLE " + task.getResult().getUser().getUid());
                     DocumentReference documentReference = firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getUid());
                     Map<String, Object> map = new HashMap<>();
                     map.put("email", task.getResult().getUser().getEmail());
@@ -166,16 +161,11 @@ public class RepositoryAuth {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("MyLog", document.getId() + " => " + document.getData());
                                 listMyCoins.add(new ModelCoinFirebase(document.getData().get("id").toString(),
                                         document.getData().get("price").toString(), document.getData().get("count").toString(),
                                         document.getData().get("date").toString(),document.getData().get("hashId").toString()));
                             }
-                        } else {
-                            Log.d("MyLog", "Error getting documents: ", task.getException());
-                        }
-
-                        Log.e("MyLog", "SIZE " + listMyCoins.size());
+                        } else {}
                         mutableLiveDataModelFirebase.postValue(listMyCoins);
                     }
                 });

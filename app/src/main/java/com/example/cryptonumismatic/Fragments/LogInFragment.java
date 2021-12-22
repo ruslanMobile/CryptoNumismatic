@@ -51,7 +51,6 @@ public class LogInFragment extends Fragment {
             public void onChanged(FirebaseUser firebaseUser) {
                 //Перевірка,чи користувач ввійшов в систему.Запуск додатку
                 if(firebaseUser!= null){
-                    Log.d("MyLog","NOT NULL AND LOG IN");
                     Intent intent = new Intent(getActivity(), ApplicationActivity.class);
                     startActivity(intent);
                 }
@@ -60,14 +59,11 @@ public class LogInFragment extends Fragment {
 
         //Вхід за допомогою Гугл.Слухач лаунчера і при виборі аккаунту запуск функції входу.
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            Log.d("MyLog","LAUNCHER");
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
             try{
                 GoogleSignInAccount acc = task.getResult();
                 if(acc!=null) viewModelLogin.logInWithGoogle(acc.getIdToken());
-            }catch (Exception e){
-                Log.d("MyLog","API EXCEPTION");
-            }
+            }catch (Exception e){}
         });
     }
 

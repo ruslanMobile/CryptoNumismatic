@@ -20,7 +20,6 @@ public class ApplicationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_application);
         getSupportActionBar().hide();
 
-        Log.d("MyLog", "======START APP=======");
 
         //Ініціалізація навігації(BottomNavigationView, NavHostFragment)
         bottomNavigationView = findViewById(R.id.bottomNavigation);

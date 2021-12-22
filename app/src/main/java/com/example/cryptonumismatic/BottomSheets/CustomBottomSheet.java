@@ -58,7 +58,6 @@ public class CustomBottomSheet extends BottomSheetDialogFragment {
         imageViewClose = view.findViewById(R.id.imageCloseBottomSheet);
         imageViewClose.setOnClickListener((a)-> dismiss());
 
-        Log.d("MyLog","BOTTOMSHEET onCreateView" + getTag());
         bundle = getArguments();
         coin = (ModelCoin) bundle.getSerializable("coin");
         textId.setText(coin.getId());
@@ -92,7 +91,6 @@ public class CustomBottomSheet extends BottomSheetDialogFragment {
         @Override
         public void onClick(View v) {
             if(checkEditText()) {
-                Log.e("MyLog", "++++++++++++++++++");
                 viewModelBottomSheet.addElementToFirebase(coin.getId(), textInputEditTextPrice.getText().toString(),
                         textInputEditTextCount.getText().toString(), textInputEditTextDate.getText().toString());
                 dismiss();

@@ -32,7 +32,6 @@ public class ProfileFragment extends Fragment {
         buttonAboutApp = view.findViewById(R.id.buttonAboutAppProfile);
         buttonSignOut = view.findViewById(R.id.buttonSignOutProfile);
         buttonSignOut.setOnClickListener((a)-> {
-            Log.e("MyLog","========");
             FirebaseAuth.getInstance().signOut();
             new RepositoryAuth(getActivity().getApplication()).getClient().signOut();
             Intent intent = new Intent(getContext(), MainActivity.class);

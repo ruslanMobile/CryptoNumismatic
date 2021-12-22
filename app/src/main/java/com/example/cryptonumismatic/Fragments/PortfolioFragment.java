@@ -53,7 +53,7 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RxJavaPlugins.setErrorHandler(th->{Log.e("MyLog","ERROR HANDLER");});
+        RxJavaPlugins.setErrorHandler(th->{});
     }
 
     @Override
@@ -68,7 +68,6 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
 
                 listMyCoins = modelCoinFirebases;
                 for (ModelCoinFirebase el : listMyCoins) {
-                    Log.d("MyLog", "ROOM " + el.toString());
                     ids += el.getIdName() + ",";
                 }
                 if (ids.trim().length() > 0) {
@@ -76,14 +75,10 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
                             TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(el -> {
-                                Log.d("MyLog", "GIVE SOME DATA PORTFOLIO");
                                 viewModelNetwork.updateids(ids);
-                            }, e -> {
-                                Log.d("MyLog", "ERROR");
-                            });
+                            }, e -> {});
                     textEmpty.setVisibility(View.GONE);
                 } else {
-                    Log.e("MyLog", "EMPTY IDS");
                     progressBarPortfolio.setVisibility(View.GONE);
                     textEmpty.setVisibility(View.VISIBLE);
                 }
@@ -94,10 +89,6 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
         viewModelNetwork.getMutableLiveDataIdsCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
             @Override
             public void onChanged(List<ModelCoin> modelCoins) {
-                Log.d("MyLog", "VIEW MODEL IDS " + modelCoins.size());
-                for (ModelCoin el : modelCoins) {
-                    Log.d("MyLog", el.toString());
-                }
                  //Отримання списку з Firebase, і після отримання зписку з Retrofit конвертувати в список з кастомною Model
                  disposableRetrofit = Observable.fromIterable(listMyCoins)
                         .map(o -> {
@@ -110,10 +101,6 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
                         })
                         .toList()
                         .subscribe(objects -> {
-                            Log.d("MyLog", "RX " + objects.size());
-                            for (Object el : objects) {
-                                Log.d("MyLog", "RX " + el.toString());
-                            }
                             coinsAdapterPortfolio.updateList(objects);
                             countAllMoneyAndGrowth(objects);
                         }, (throwable) -> {
@@ -173,7 +160,6 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
     //Очищення disposable від інтервалів
     @Override
     public void onDestroyView() {
-        Log.d("MyLog", "FRAGMENT onDestroyView=========");
         if (disposable != null)
             disposable.dispose();
         super.onDestroyView();
@@ -182,7 +168,6 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
     //Натиск на кнопку додаткової інформації
     @Override
     public void onClickMoreInfoPortfolio(int position) {
-        Log.e("MyLog", "ClICL");
         Bundle bundle = new Bundle();
         bundle.putSerializable("coin", listPortfolio.get(position));
         portfolioBottomSheet.setArguments(bundle);

@@ -57,12 +57,10 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("MyLog", "FRAGMENT onCreateView============");
         viewModelNetwork = new ViewModelProvider(requireActivity()).get(ViewModelNetwork.class);
         viewModelNetwork.getMutableLiveDataTopTenCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
             @Override
             public void onChanged(List<ModelCoin> modelCoins) {
-                Log.d("MyLog", "VIEW MODEL " + modelCoins.size());
                 for (ModelCoin el : modelCoins) {
                     listTopCoins.add(el);
                 }
@@ -74,7 +72,6 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
         viewModelNetwork.getMutableLiveDataHundredCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
             @Override
             public void onChanged(List<ModelCoin> modelCoins) {
-                Log.d("MyLog", "VIEW MODEL HUNDRED" + modelCoins.size());
                 for (ModelCoin el : modelCoins) {
                     listGrowthCoins.add(el);
                 }
@@ -86,7 +83,6 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
         viewModelNetwork.getMutableLiveDataAllCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
             @Override
             public void onChanged(List<ModelCoin> modelCoins) {
-                Log.d("MyLog", "VIEW MODEL ALL" + modelCoins.size());
                 listFind = new ArrayList<>();
                 for (ModelCoin el : modelCoins) {
                     listFind.add(el);
@@ -124,37 +120,27 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
         customBottomSheet = new CustomBottomSheet();
 
         //Оновлення списків по інтервалах
-        Log.d("MyLog", "FRAGMENT onViewCreated============");
         disposableFirst = Observable.interval(100, 7500,
                 TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(el -> {
-                    Log.d("MyLog", "GIVE SOME DATA");
                     viewModelNetwork.updatetop();
-                }, e -> {
-                    Log.d("MyLog", "ERROR");
-                });
+                }, e -> {});
 
 
         disposableSecond = Observable.interval(3500, 13000,
                 TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(el -> {
-                    Log.d("MyLog", "GIVE SOME DATA HUNDRED");
                     viewModelNetwork.updatehundred();
-                }, e -> {
-                    Log.d("MyLog", "ERROR");
-                });
+                }, e -> {});
 
 
         disposableThird = Observable.interval(5500, 25000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(el -> {
-                    Log.d("MyLog", "GIVE SOME DATA ALL");
                     viewModelNetwork.updateall();
-                }, e -> {
-                    Log.d("MyLog", "ERROR");
-                });
+                }, e -> {});
         //
         search();
     }
@@ -162,7 +148,6 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
     //Очищення disposable від інтервалів
     @Override
     public void onDestroyView() {
-        Log.d("MyLog", "FRAGMENT onDestroyView=========");
         disposableFirst.dispose();
         disposableSecond.dispose();
         disposableThird.dispose();
@@ -188,7 +173,6 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((string) -> {
                     String text = string.toString().trim();
-                    Log.e("MyLog", "SEARCH: " + string);
                     if (listFind.size() == 0) {
                         progressBarFindCoins.setVisibility(View.VISIBLE);
                     } else {
@@ -200,7 +184,6 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
                                     listFindCoins.add(el);
                                 }
                             }
-                            Log.d("MyLog", "LIST" + listFindCoins.size());
                             adapterFind.findCoins(listFindCoins);
                         }
                     }
@@ -210,14 +193,11 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
                         adapterFind.findCoins(new ArrayList<>());
                         progressBarFindCoins.setVisibility(View.GONE);
                     }
-                }, (r) -> {
-                    Log.d("MyLog","ERROR RX");
-                });
+                }, (r) -> {});
     }
 
     @Override
     public void onClickAddElementTopCoins(int position) {
-        Log.d("MyLog", "========CLICK TopCoins========" + listTopCoins.get(position).toString());
         Bundle bundle = new Bundle();
         bundle.putSerializable("coin", listTopCoins.get(position));
         customBottomSheet.setArguments(bundle);
@@ -226,7 +206,6 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
 
     @Override
     public void onClickAddElementGrowthCoins(int position) {
-        Log.d("MyLog", "========CLICK GrowthCoins========" + listGrowthCoins.get(position).toString());
         Bundle bundle = new Bundle();
         bundle.putSerializable("coin", listGrowthCoins.get(position));
         customBottomSheet.setArguments(bundle);
@@ -235,7 +214,6 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
 
     @Override
     public void onClickAddElementFindCoins(int position) {
-        Log.d("MyLog", "========CLICK FindCoins========" + listFindCoins.get(position).toString());
         Bundle bundle = new Bundle();
         bundle.putSerializable("coin", listFindCoins.get(position));
         customBottomSheet.setArguments(bundle);

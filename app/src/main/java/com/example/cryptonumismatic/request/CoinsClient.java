@@ -47,15 +47,12 @@ public class CoinsClient {
             @Override
             public void onResponse(Call<List<ModelCoin>> call, Response<List<ModelCoin>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("MyLog", "CLIENT: " + String.valueOf(response.body().size()));
                     mutableLiveDataTopTenCoins.postValue(response.body());
-                } else Log.e("MyLog", "ERROR REQUEST" + response.message());
+                } else {}
             }
 
             @Override
-            public void onFailure(Call<List<ModelCoin>> call, Throwable t) {
-                Log.d("MyLog", "ERROR REQUEST " + " " + t.getMessage());
-            }
+            public void onFailure(Call<List<ModelCoin>> call, Throwable t) {}
         });
     }
 
@@ -71,15 +68,12 @@ public class CoinsClient {
             @Override
             public void onResponse(Call<List<ModelCoin>> call, Response<List<ModelCoin>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("MyLog", "CLIENT ALL: " + String.valueOf(response.body().size()));
                     mutableLiveDataAllCoins.postValue(response.body().subList(0, 10000));
-                } else Log.e("MyLog", "ERROR REQUEST All");
+                } else {}
             }
 
             @Override
-            public void onFailure(Call<List<ModelCoin>> call, Throwable t) {
-                Log.d("MyLog", "ERROR REQUEST " + " " + t.getMessage());
-            }
+            public void onFailure(Call<List<ModelCoin>> call, Throwable t) { }
         });
     }
     //отримання списку лідерів росту
@@ -94,30 +88,23 @@ public class CoinsClient {
             @Override
             public void onResponse(Call<List<ModelCoin>> call, Response<List<ModelCoin>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("MyLog", "CLIENT HUNDRED: " + String.valueOf(response.body().size()));
                     try {
                         Collections.sort(response.body(), new Comparator<ModelCoin>() {
                             @Override
                             public int compare(ModelCoin o1, ModelCoin o2) {
                                 try {
                                     return Double.valueOf(o2.getModelOneDayChange().getPriceChangePct()).compareTo(Double.valueOf(o1.getModelOneDayChange().getPriceChangePct()));
-                                } catch (NullPointerException ee) {
-                                    Log.d("MyLog", "NULL EXCEPTION");
-                                }
+                                } catch (NullPointerException ee) {}
                                 return 0;
                             }
                         });
-                    }catch (IllegalArgumentException ee){
-                        Log.e("MyLog",ee.getMessage());
-                    }
+                    }catch (IllegalArgumentException ee){}
                     mutableLiveDataHundredCoins.postValue(response.body().subList(0,10));
-                } else Log.e("MyLog", "ERROR REQUEST HUNDRED"+ response.message());
+                } else {}
             }
 
             @Override
-            public void onFailure(Call<List<ModelCoin>> call, Throwable t) {
-                Log.d("MyLog", "ERROR REQUEST " + " " + t.getMessage());
-            }
+            public void onFailure(Call<List<ModelCoin>> call, Throwable t) {}
         });
     }
 
@@ -133,15 +120,12 @@ public class CoinsClient {
             @Override
             public void onResponse(Call<List<ModelCoin>> call, Response<List<ModelCoin>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("MyLog", "CLIENT IDS: " + String.valueOf(response.body().size()));
                     mutableLiveDataIdsCoins.postValue(response.body());
-                } else Log.e("MyLog", "ERROR REQUEST IDS");
+                } else {}
             }
 
             @Override
-            public void onFailure(Call<List<ModelCoin>> call, Throwable t) {
-                Log.d("MyLog", "ERROR REQUEST IDS" + " " + t.getMessage());
-            }
+            public void onFailure(Call<List<ModelCoin>> call, Throwable t) {}
         });
     }
 
