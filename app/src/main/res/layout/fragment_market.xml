@@ -90,7 +90,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="@string/textTopCoins"
+                android:text="@string/textTopNfts"
                 android:textColor="#FFFFFF"
                 android:textSize="22sp" />
 
@@ -109,33 +109,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"></androidx.recyclerview.widget.RecyclerView>
-
-            <TextView
-                android:id="@+id/textGrowthLeaderMarket"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/textGrowthCoins"
-                android:textColor="#FFFFFF"
-                android:textSize="22sp" />
-
-            <ProgressBar
-                android:id="@+id/progressBarGrowthCoins"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:foregroundGravity="center_horizontal"
-                android:visibility="gone" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewGrowthLeaders"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </LinearLayout>
     </ScrollView>
 

@@ -47,9 +47,9 @@ public class CoinsAdapterFindCoins extends RecyclerView.Adapter<CoinsAdapterFind
         try {
             holder.textId.setText(item.getId());
             holder.textName.setText(item.getName());
-            holder.textPercent.setText(f.format(Math.abs(Double.valueOf(item.getModelOneDayChange().getPriceChangePct())*100)) + "%");
+            holder.textPercent.setText(f.format(Math.abs(Double.valueOf(item.getPrice_change_percentage_24h()))) + "%");
             holder.textPrice.setText(f.format(Double.valueOf(item.getPrice())));
-            if(Double.valueOf(item.getModelOneDayChange().getPriceChangePct())>0) {
+            if(Double.valueOf(item.getPrice_change_percentage_24h())>0) {
                 holder.imageViewPercent.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_icon_plus_percent));
                 holder.textPercent.setTextColor(context.getResources().getColor(R.color.percentPlus));
             }else {
@@ -58,22 +58,10 @@ public class CoinsAdapterFindCoins extends RecyclerView.Adapter<CoinsAdapterFind
             }
         }catch (NullPointerException ex) {}
 
-
-        //Перевірка, в кому розширенні приходить картинка. Відповідно до того загружати її
-        Pattern pattern = Pattern.compile(".svg");
-        Matcher matcher = pattern.matcher(item.getLogoUrl());
-        if(matcher.find()) {
-            GlideToVectorYou
-                    .init()
-                    .with(context)
-                    .setPlaceHolder(R.drawable.ic_icon_bitcoin, R.drawable.ic_icon_bitcoin)
-                    .load(Uri.parse(item.getLogoUrl()), holder.imageViewLogo);
-        }else {
             Glide.with(context)
                     .load(item.getLogoUrl())
                     .placeholder(R.drawable.ic_icon_bitcoin)
                     .into(holder.imageViewLogo);
-        }
     }
 
     @Override

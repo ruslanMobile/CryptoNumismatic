@@ -3,6 +3,7 @@ package com.example.cryptonumismatic.Repository;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cryptonumismatic.models.ModelCoin;
+import com.example.cryptonumismatic.models.NftModel;
 import com.example.cryptonumismatic.request.CoinsClient;
 
 import java.util.List;
@@ -21,31 +22,23 @@ public class RepositoryRetrofit {
     private RepositoryRetrofit(){
         coinsClient = CoinsClient.getInstance();
     }
-    public MutableLiveData<List<ModelCoin>> getMutableLiveDataTopTenCoins(){
-        return coinsClient.getMutableLiveDataTopTenCoins();
+    public MutableLiveData<List<NftModel>> getMutableLiveDataTopNfts(){
+        return coinsClient.getMutableLiveDataTopNfts();
     }
     public MutableLiveData<List<ModelCoin>> getMutableLiveDataAllCoins(){
         return coinsClient.getMutableLiveDataAllCoins();
-    }
-    public MutableLiveData<List<ModelCoin>> getMutableLiveDataHundredCoins() {
-        return coinsClient.getMutableLiveDataHundredCoins();
     }
     public MutableLiveData<List<ModelCoin>> getMutableLiveDataIdsCoins() {
         return coinsClient.getMutableLiveDataIdsCoins();
     }
     //оновлення списку топ монет
     public void updatetop() {
-        coinsClient.updateMutableLiveDataTopTenCoins();
+        coinsClient.updateMutableLiveDataTopNfts();
     }
 
     //оновлення списку всіх монет
     public void updateall() {
         coinsClient.updateMutableLiveDataAllCoins();
-    }
-
-    //оновлення списку лідерів росту
-    public void updatehundred() {
-        coinsClient.updateMutableLiveDataHundredCoins();
     }
     //оновлення списку по id
     public void updateids(String ids) {

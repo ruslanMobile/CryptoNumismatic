@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.cryptonumismatic.Adapters.CoinsAdapterFindCoins;
-import com.example.cryptonumismatic.Adapters.CoinsAdapterGrowthCoins;
 import com.example.cryptonumismatic.Adapters.CoinsAdapterTopCoins;
 import com.example.cryptonumismatic.BottomSheets.CustomBottomSheet;
 import com.example.cryptonumismatic.R;
 import com.example.cryptonumismatic.ViewModel.ViewModelNetwork;
 import com.example.cryptonumismatic.models.ModelCoin;
+import com.example.cryptonumismatic.models.NftModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -37,20 +36,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.ClickAddElementListener, CoinsAdapterGrowthCoins.ClickAddElementListener
-        , CoinsAdapterFindCoins.ClickAddElementListener {
+public class MarketFragment extends Fragment implements CoinsAdapterFindCoins.ClickAddElementListener {
     private ViewModelNetwork viewModelNetwork;
-    private Disposable disposableFirst, disposableSecond, disposableThird;
-    private RecyclerView recyclerViewTopCoins, recyclerViewGrowthLeaders, recyclerViewFindCoins;
+    private Disposable disposableFirst, disposableThird;
+    private RecyclerView recyclerViewTopCoins, recyclerViewFindCoins;
     private List<ModelCoin> listFind = new ArrayList<>();
-    private List<ModelCoin> listTopCoins = new ArrayList<>();
-    private List<ModelCoin> listGrowthCoins = new ArrayList<>();
+    private List<NftModel> listTopNfts = new ArrayList<>();
     private List<ModelCoin> listFindCoins = new ArrayList<>();
     private CoinsAdapterTopCoins adapterTopCoins;
-    private CoinsAdapterGrowthCoins adapterGrowthCoins;
     private CoinsAdapterFindCoins adapterFind;
     private TextView textFind;
-    private ProgressBar progressBarTopCoins, progressBarGrowthCoins, progressBarFindCoins;
+    private ProgressBar progressBarTopCoins, progressBarFindCoins;
     private TextInputEditText textInputEditText;
     private ScrollView scrollView;
     private CustomBottomSheet customBottomSheet;
@@ -58,26 +54,15 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModelNetwork = new ViewModelProvider(requireActivity()).get(ViewModelNetwork.class);
-        viewModelNetwork.getMutableLiveDataTopTenCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
+        viewModelNetwork.getMutableLiveDataTopNfts().observe(getViewLifecycleOwner(), new Observer<List<NftModel>>() {
             @Override
-            public void onChanged(List<ModelCoin> modelCoins) {
-                for (ModelCoin el : modelCoins) {
-                    listTopCoins.add(el);
+            public void onChanged(List<NftModel> modelCoins) {
+                for (NftModel el : modelCoins) {
+                    listTopNfts.add(el);
                 }
                 progressBarTopCoins.setVisibility(View.GONE);
                 //Оновлення списку топ монет
                 adapterTopCoins.findCoins(modelCoins);
-            }
-        });
-        viewModelNetwork.getMutableLiveDataHundredCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
-            @Override
-            public void onChanged(List<ModelCoin> modelCoins) {
-                for (ModelCoin el : modelCoins) {
-                    listGrowthCoins.add(el);
-                }
-                progressBarGrowthCoins.setVisibility(View.GONE);
-                //Оновлення списку Лідерів росту
-                adapterGrowthCoins.findCoins(modelCoins);
             }
         });
         viewModelNetwork.getMutableLiveDataAllCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
@@ -97,24 +82,19 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recyclerViewTopCoins = view.findViewById(R.id.recyclerViewTopCoins);
-        recyclerViewGrowthLeaders = view.findViewById(R.id.recyclerViewGrowthLeaders);
         recyclerViewFindCoins = view.findViewById(R.id.recyclerViewFindCoins);
         textFind = view.findViewById(R.id.textFindCoinsMarket);
         progressBarTopCoins = view.findViewById(R.id.progressBarTopCoins);
-        progressBarGrowthCoins = view.findViewById(R.id.progressBarGrowthCoins);
         progressBarFindCoins = view.findViewById(R.id.progressBarFindCoins);
         scrollView = view.findViewById(R.id.scrollView);
 
         progressBarTopCoins.setVisibility(View.VISIBLE);
-        progressBarGrowthCoins.setVisibility(View.VISIBLE);
         textInputEditText = view.findViewById(R.id.textInputEditTextFind);
         //Адаптери для списків
-        adapterTopCoins = new CoinsAdapterTopCoins(new ArrayList(), getActivity(), this);
-        adapterGrowthCoins = new CoinsAdapterGrowthCoins(new ArrayList(), getActivity(), this);
+        adapterTopCoins = new CoinsAdapterTopCoins(new ArrayList(), getActivity());
         adapterFind = new CoinsAdapterFindCoins(new ArrayList(), getActivity(), this);
 
         recyclerViewFindCoins.setAdapter(adapterFind);
-        recyclerViewGrowthLeaders.setAdapter(adapterGrowthCoins);
         recyclerViewTopCoins.setAdapter(adapterTopCoins);
 
         customBottomSheet = new CustomBottomSheet();
@@ -125,14 +105,6 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(el -> {
                     viewModelNetwork.updatetop();
-                }, e -> {});
-
-
-        disposableSecond = Observable.interval(3500, 13000,
-                TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(el -> {
-                    viewModelNetwork.updatehundred();
                 }, e -> {});
 
 
@@ -149,7 +121,6 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
     @Override
     public void onDestroyView() {
         disposableFirst.dispose();
-        disposableSecond.dispose();
         disposableThird.dispose();
         super.onDestroyView();
     }
@@ -194,22 +165,6 @@ public class MarketFragment extends Fragment implements CoinsAdapterTopCoins.Cli
                         progressBarFindCoins.setVisibility(View.GONE);
                     }
                 }, (r) -> {});
-    }
-
-    @Override
-    public void onClickAddElementTopCoins(int position) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("coin", listTopCoins.get(position));
-        customBottomSheet.setArguments(bundle);
-        customBottomSheet.show(getActivity().getSupportFragmentManager(), "TopCoins");
-    }
-
-    @Override
-    public void onClickAddElementGrowthCoins(int position) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("coin", listGrowthCoins.get(position));
-        customBottomSheet.setArguments(bundle);
-        customBottomSheet.show(getActivity().getSupportFragmentManager(), "GrowthCoins");
     }
 
     @Override

@@ -70,20 +70,10 @@ public class CustomBottomSheet extends BottomSheetDialogFragment {
 
     //Перевірка, в кому розширенні приходить картинка. Відповідно до того загружати її
     public void uploadPhoto(ModelCoin coin){
-        Pattern pattern = Pattern.compile(".svg");
-        Matcher matcher = pattern.matcher(coin.getLogoUrl());
-        if(matcher.find()) {
-            GlideToVectorYou
-                    .init()
-                    .with(getActivity())
-                    .setPlaceHolder(R.drawable.ic_icon_bitcoin, R.drawable.ic_icon_bitcoin)
-                    .load(Uri.parse(coin.getLogoUrl()), circleImageView);
-        }else {
             Glide.with(getActivity())
                     .load(coin.getLogoUrl())
                     .placeholder(R.drawable.ic_icon_bitcoin)
                     .into(circleImageView);
-        }
     }
 
     //Слухач додавання нового елементу
@@ -91,7 +81,7 @@ public class CustomBottomSheet extends BottomSheetDialogFragment {
         @Override
         public void onClick(View v) {
             if(checkEditText()) {
-                viewModelBottomSheet.addElementToFirebase(coin.getId(), textInputEditTextPrice.getText().toString(),
+                viewModelBottomSheet.addElementToFirebase(coin.getFull_id(), textInputEditTextPrice.getText().toString(),
                         textInputEditTextCount.getText().toString(), textInputEditTextDate.getText().toString());
                 dismiss();
             }

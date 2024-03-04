@@ -1,13 +1,11 @@
 package com.example.cryptonumismatic.request;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cryptonumismatic.models.ModelCoin;
+import com.example.cryptonumismatic.models.ModelTopNfts;
+import com.example.cryptonumismatic.models.NftModel;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -15,9 +13,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CoinsClient {
-    private MutableLiveData<List<ModelCoin>> mutableLiveDataTopTenCoins;
+    private MutableLiveData<List<NftModel>> mutableLiveDataTopNfts;
     private MutableLiveData<List<ModelCoin>> mutableLiveDataAllCoins;
-    private MutableLiveData<List<ModelCoin>> mutableLiveDataHundredCoins;
     private MutableLiveData<List<ModelCoin>> mutableLiveDataIdsCoins;
     private static CoinsClient instance;
 
@@ -29,30 +26,30 @@ public class CoinsClient {
     }
 
     private CoinsClient() {
-        mutableLiveDataTopTenCoins = new MutableLiveData<>();
+        mutableLiveDataTopNfts = new MutableLiveData<>();
         mutableLiveDataAllCoins = new MutableLiveData<>();
-        mutableLiveDataHundredCoins = new MutableLiveData<>();
         mutableLiveDataIdsCoins = new MutableLiveData<>();
     }
 
-    //отримати списку топ монет
-    public MutableLiveData<List<ModelCoin>> getMutableLiveDataTopTenCoins() {
-        return mutableLiveDataTopTenCoins;
+    //отримати списку топ nft
+    public MutableLiveData<List<NftModel>> getMutableLiveDataTopNfts() {
+        return mutableLiveDataTopNfts;
     }
 
-    //запрос топ монет
-    public void updateMutableLiveDataTopTenCoins() {
-        Call<List<ModelCoin>> call = RetrofitClient.getInstance().getApi().getTopTenCoins();
-        call.enqueue(new Callback<List<ModelCoin>>() {
+    //запрос топ nft
+    public void updateMutableLiveDataTopNfts() {
+        Call<ModelTopNfts> call = RetrofitClient.getInstance().getApi().getTopNfts();
+        call.enqueue(new Callback<ModelTopNfts>() {
             @Override
-            public void onResponse(Call<List<ModelCoin>> call, Response<List<ModelCoin>> response) {
+            public void onResponse(Call<ModelTopNfts> call, Response<ModelTopNfts> response) {
                 if (response.isSuccessful()) {
-                    mutableLiveDataTopTenCoins.postValue(response.body());
+                    mutableLiveDataTopNfts.postValue(response.body().getNfts());
+                    Call l = call;
                 } else {}
             }
 
             @Override
-            public void onFailure(Call<List<ModelCoin>> call, Throwable t) {}
+            public void onFailure(Call<ModelTopNfts> call, Throwable t) {}
         });
     }
 
@@ -68,38 +65,7 @@ public class CoinsClient {
             @Override
             public void onResponse(Call<List<ModelCoin>> call, Response<List<ModelCoin>> response) {
                 if (response.isSuccessful()) {
-                    mutableLiveDataAllCoins.postValue(response.body().subList(0, 10000));
-                } else {}
-            }
-
-            @Override
-            public void onFailure(Call<List<ModelCoin>> call, Throwable t) { }
-        });
-    }
-    //отримання списку лідерів росту
-    public MutableLiveData<List<ModelCoin>> getMutableLiveDataHundredCoins() {
-        return mutableLiveDataHundredCoins;
-    }
-
-    //оновлення списку лідерів росту
-    public void updateMutableLiveDataHundredCoins() {
-        Call<List<ModelCoin>> call = RetrofitClient.getInstance().getApi().getHundredCoins();
-        call.enqueue(new Callback<List<ModelCoin>>() {
-            @Override
-            public void onResponse(Call<List<ModelCoin>> call, Response<List<ModelCoin>> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        Collections.sort(response.body(), new Comparator<ModelCoin>() {
-                            @Override
-                            public int compare(ModelCoin o1, ModelCoin o2) {
-                                try {
-                                    return Double.valueOf(o2.getModelOneDayChange().getPriceChangePct()).compareTo(Double.valueOf(o1.getModelOneDayChange().getPriceChangePct()));
-                                } catch (NullPointerException ee) {}
-                                return 0;
-                            }
-                        });
-                    }catch (IllegalArgumentException ee){}
-                    mutableLiveDataHundredCoins.postValue(response.body().subList(0,10));
+                    mutableLiveDataAllCoins.postValue(response.body());
                 } else {}
             }
 

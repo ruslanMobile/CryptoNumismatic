@@ -2,6 +2,7 @@
     <string name="app_name">CryptoNumismatic</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_web_client_id">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</string>
     <string name="logo">cryptonumismatic</string>
     <string name="secondLogo">EASY &amp; FAST</string>
     <string name="autorizeStart">Autorize your account for start traiding with most anonimus cryptowallet on market </string>
@@ -12,6 +13,7 @@
     <string name="inputTextHintRepeatPassword">Repeat Password with 8 chracters</string>
     <string name="inputTextHintFind">Find crypto</string>
     <string name="textTopCoins">Top Coins</string>
+    <string name="textTopNfts">Top NFTs</string>
     <string name="textGrowthCoins">Growth Leaders</string>
     <string name="textFindCoins">Found Coins</string>
     <string name="purchasePrice">Purchase price:</string>

@@ -93,19 +93,9 @@ public class PortfolioBottomSheet extends BottomSheetDialogFragment {
 
     //Перевірка, в кому розширенні приходить картинка. Відповідно до того загружати її
     public void uploadPhoto(){
-        Pattern pattern = Pattern.compile(".svg");
-        Matcher matcher = pattern.matcher(modelCoinPortfolio.getModelCoin().getLogoUrl());
-        if(matcher.find()) {
-            GlideToVectorYou
-                    .init()
-                    .with(getActivity())
-                    .setPlaceHolder(R.drawable.ic_icon_bitcoin, R.drawable.ic_icon_bitcoin)
-                    .load(Uri.parse(modelCoinPortfolio.getModelCoin().getLogoUrl()), circleImageLogo);
-        }else {
             Glide.with(getActivity())
                     .load(modelCoinPortfolio.getModelCoin().getLogoUrl())
                     .placeholder(R.drawable.ic_icon_bitcoin)
                     .into(circleImageLogo);
-        }
     }
 }

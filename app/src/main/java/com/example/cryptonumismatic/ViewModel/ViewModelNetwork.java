@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.cryptonumismatic.Repository.RepositoryRetrofit;
 import com.example.cryptonumismatic.models.ModelCoin;
+import com.example.cryptonumismatic.models.NftModel;
 
 import java.util.List;
 
@@ -19,17 +20,13 @@ public class ViewModelNetwork extends AndroidViewModel {
         repositoryRetrofit = RepositoryRetrofit.getInstance();
     }
 
-    //отримання топ монет
-    public MutableLiveData<List<ModelCoin>> getMutableLiveDataTopTenCoins() {
-        return repositoryRetrofit.getMutableLiveDataTopTenCoins();
+    //отримання топ nfts
+    public MutableLiveData<List<NftModel>> getMutableLiveDataTopNfts() {
+        return repositoryRetrofit.getMutableLiveDataTopNfts();
     }
     //отримання всіх монет
     public MutableLiveData<List<ModelCoin>> getMutableLiveDataAllCoins() {
         return repositoryRetrofit.getMutableLiveDataAllCoins();
-    }
-    //отримання лідерів росту
-    public MutableLiveData<List<ModelCoin>> getMutableLiveDataHundredCoins() {
-        return repositoryRetrofit.getMutableLiveDataHundredCoins();
     }
     //отримання списку по id
     public MutableLiveData<List<ModelCoin>> getMutableLiveDataIdsCoins() {
@@ -42,9 +39,6 @@ public class ViewModelNetwork extends AndroidViewModel {
     }
     public void updateall(){
         repositoryRetrofit.updateall();
-    }
-    public void updatehundred(){
-        repositoryRetrofit.updatehundred();
     }
     public void updateids(String ids){
         repositoryRetrofit.updateids(ids);

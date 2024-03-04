@@ -45,7 +45,7 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
     private RecyclerView recyclerView;
     private Disposable disposable,disposableRetrofit;
     private String ids = "";
-    private TextView textAllMoney, textGrowth24,textEmpty;
+    private TextView textAllMoney,textEmpty;
     private ProgressBar progressBarPortfolio;
     private CoinsAdapterPortfolio coinsAdapterPortfolio;
     private PortfolioBottomSheet portfolioBottomSheet;
@@ -85,7 +85,7 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
             }
         });
         viewModelNetwork = new ViewModelProvider(requireActivity()).get(ViewModelNetwork.class);
-        //Наблюдачч за зміною списку з Retrofit
+        //Наблюдач за зміною списку з Retrofit
         viewModelNetwork.getMutableLiveDataIdsCoins().observe(getViewLifecycleOwner(), new Observer<List<ModelCoin>>() {
             @Override
             public void onChanged(List<ModelCoin> modelCoins) {
@@ -93,7 +93,7 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
                  disposableRetrofit = Observable.fromIterable(listMyCoins)
                         .map(o -> {
                             for (ModelCoin el : modelCoins) {
-                                if (el.getId().equals(o.getIdName())) {
+                                if (el.getFull_id().equals(o.getIdName())) {
                                     return new ModelCoinPortfolio(o, el);
                                 }
                             }
@@ -101,8 +101,10 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
                         })
                         .toList()
                         .subscribe(objects -> {
-                            coinsAdapterPortfolio.updateList(objects);
-                            countAllMoneyAndGrowth(objects);
+                            if(!objects.contains(0)) {
+                                coinsAdapterPortfolio.updateList(objects);
+                                countAllMoneyAndGrowth(objects);
+                            }
                         }, (throwable) -> {
                         });
 
@@ -112,10 +114,9 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
         return inflater.inflate(R.layout.fragment_portfolio, container, false);
     }
 
-    //Підрахунок загальної кількості грошей і прибутку за 24 год. Зміна TextView в верхній частині екрану
+    //Підрахунок загальної кількості грошей
     public void countAllMoneyAndGrowth(List<Serializable> objects) {
         double allMoney = 0.0;
-        double usdBefore = 0.0;
 
         listPortfolio = new ArrayList<>();
         for (Object el : objects) {
@@ -124,18 +125,8 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
 
         for (ModelCoinPortfolio el : listPortfolio) {
             allMoney += Double.valueOf(el.getModelCoinFirebase().getCount()) * Double.valueOf(el.getModelCoin().getPrice());
-            try {
-                usdBefore += Double.valueOf(el.getModelCoinFirebase().getCount()) *
-                        (Double.valueOf(el.getModelCoin().getPrice()) - Double.valueOf(el.getModelCoin().getModelOneDayChange().getPriceChange()));
-            } catch (NullPointerException ex) {
-                usdBefore += Double.valueOf(el.getModelCoinFirebase().getCount()) * Double.valueOf(el.getModelCoin().getPrice());
-            }
         }
         textAllMoney.setText(String.valueOf(new DecimalFormat("0.0").format(allMoney)) + " USD");
-        textGrowth24.setText("USD" + String.valueOf(new DecimalFormat("0.00").format(allMoney - usdBefore)) + "(24h)");
-        if (allMoney - usdBefore < 0)
-            textGrowth24.setTextColor(getResources().getColor(R.color.percentMinus));
-        else textGrowth24.setTextColor(getResources().getColor(R.color.percentPlus));
     }
 
     @Override
@@ -145,7 +136,6 @@ public class PortfolioFragment extends Fragment implements CoinsAdapterPortfolio
         progressBarPortfolio = view.findViewById(R.id.progressBarPortfolio);
         progressBarPortfolio.setVisibility(View.VISIBLE);
         textAllMoney = view.findViewById(R.id.textAllMoney);
-        textGrowth24 = view.findViewById(R.id.textGrowth24Portfolio);
         textEmpty = view.findViewById(R.id.textEmptyPortfolio);
         recyclerView = view.findViewById(R.id.recyclerPortfolio);
 

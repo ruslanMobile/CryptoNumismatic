@@ -54,7 +54,7 @@ public class CoinsAdapterPortfolio extends RecyclerView.Adapter<CoinsAdapterPort
             holder.textId.setText(modelCoinPortfolio.getModelCoinFirebase().getIdName());
             holder.textCount.setText(modelCoinPortfolio.getModelCoinFirebase().getCount());
             holder.textName.setText(modelCoinPortfolio.getModelCoin().getName());
-            holder.textPercent.setText(f.format(Math.abs(Double.valueOf(modelCoinPortfolio.getModelCoin().getModelOneDayChange().getPriceChangePct()) * 100)) + "%");
+            holder.textPercent.setText(f.format(Math.abs(Double.valueOf(modelCoinPortfolio.getModelCoin().getPrice_change_percentage_24h()))) + "%");
             holder.textPrice.setText(f.format(Double.valueOf(modelCoinPortfolio.getModelCoin().getPrice())));
 
             //кількість монети в доларах
@@ -65,7 +65,7 @@ public class CoinsAdapterPortfolio extends RecyclerView.Adapter<CoinsAdapterPort
                 holder.textUSD.setText(String.valueOf(new DecimalFormat("0.0").format(usd))+" USD");
             else holder.textUSD.setText(String.valueOf(new DecimalFormat("0").format(usd))+" USD");
 
-            if (Double.valueOf(modelCoinPortfolio.getModelCoin().getModelOneDayChange().getPriceChangePct()) > 0) {
+            if (Double.valueOf(modelCoinPortfolio.getModelCoin().getPrice_change_percentage_24h()) > 0) {
                 holder.imageViewPercent.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_icon_plus_percent));
                 holder.textPercent.setTextColor(context.getResources().getColor(R.color.percentPlus));
             } else {
@@ -73,23 +73,10 @@ public class CoinsAdapterPortfolio extends RecyclerView.Adapter<CoinsAdapterPort
                 holder.textPercent.setTextColor(context.getResources().getColor(R.color.percentMinus));
             }
         }catch (NullPointerException ex){}
-
-        //Перевірка, в кому розширенні приходить картинка. Відповідно до того загружати її
-        Pattern pattern = Pattern.compile(".svg");
-        Matcher matcher = pattern.matcher(modelCoinPortfolio.getModelCoin().getLogoUrl());
-        if(matcher.find()) {
-            GlideToVectorYou
-                    .init()
-                    .with(context)
-                    .setPlaceHolder(R.drawable.ic_icon_bitcoin, R.drawable.ic_icon_bitcoin)
-                    .load(Uri.parse(modelCoinPortfolio.getModelCoin().getLogoUrl()), holder.imageViewLogo);
-        }else {
-            Glide.with(context)
-                    .load(modelCoinPortfolio.getModelCoin().getLogoUrl())
-                    .placeholder(R.drawable.ic_icon_bitcoin)
-                    .into(holder.imageViewLogo);
-        }
-
+        Glide.with(context)
+                .load(modelCoinPortfolio.getModelCoin().getLogoUrl())
+                .placeholder(R.drawable.ic_icon_bitcoin)
+                .into(holder.imageViewLogo);
     }
 
     @Override
